@@ -14,18 +14,16 @@ class User(db.Model, UserMixin):
 
 #QUESTÃO MULTIPLA ESCOLHA 
 
-# class Questao(db.Model):
-#     id = Column(Integer, primary_key=True)
-#     enunciado = Column(String, nullable=False)
-#     gabarito_id = Column(Integer, ForeignKey('alternativa.id'))
-#     alternativas = relationship('Alternativa', backref='questao', cascade='all, delete-orphan')
+class Questao(db.Model):
+    id = Column(Integer, primary_key=True)
+    enunciado = Column(String(255), nullable=False)
+    alternativas = relationship('Alternativa', backref='questao', lazy='select')
 
-# class Alternativa(db.Model):
-#     id = Column(Integer, primary_key=True)
-#     texto = Column(String, nullable=False)
-#     correta = Column(Boolean, nullable=False)
-#     questao_id = Column(Integer, ForeignKey('questao.id'))
-    # questao = relationship('QuestaoME', backref='alternativas', lazy='joined')
+class Alternativa(db.Model):
+    id = Column(Integer, primary_key=True)
+    texto = Column(String(255), nullable=False)
+    correta = Column(Boolean, nullable=False)
+    questao_id = Column(Integer, ForeignKey('questao.id'))
 
 ###############################################################################################################
     
