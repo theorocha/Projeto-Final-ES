@@ -9,5 +9,5 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(80), nullable=False)
 
 
-   
+ 
     
