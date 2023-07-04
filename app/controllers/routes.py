@@ -13,7 +13,7 @@ def load_user(user_id):
 
 @app.route("/")
 def home():
-    return render_template('home.html')
+        return render_template('home.html')
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -51,3 +51,9 @@ def user():
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+
+@app.route("/criaQuestao",methods=['GET', 'POST'])
+@login_required
+def criaQuestao():
+    return render_template('criaQuestao.html')

@@ -1,4 +1,6 @@
 from app import db
+from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Numeric
+from sqlalchemy.orm import relationship
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_required, LoginManager, login_user, logout_user, current_user
 
@@ -8,6 +10,38 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(9), nullable=False, unique=True)
     password = db.Column(db.String(80), nullable=False)
 
+###############################################################################################################
 
- 
+#QUESTÃO MULTIPLA ESCOLHA 
+
+# class Questao(db.Model):
+#     id = Column(Integer, primary_key=True)
+#     enunciado = Column(String, nullable=False)
+#     gabarito_id = Column(Integer, ForeignKey('alternativa.id'))
+#     alternativas = relationship('Alternativa', backref='questao', cascade='all, delete-orphan')
+
+# class Alternativa(db.Model):
+#     id = Column(Integer, primary_key=True)
+#     texto = Column(String, nullable=False)
+#     correta = Column(Boolean, nullable=False)
+#     questao_id = Column(Integer, ForeignKey('questao.id'))
+    # questao = relationship('QuestaoME', backref='alternativas', lazy='joined')
+
+###############################################################################################################
+    
+#QUESTÃO CERTO OU ERRADO.
+class QuestaoCE(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    descricao = db.Column(db.String, nullable = False)
+    resposta_correta = Column(Boolean, nullable=False)
+
+###############################################################################################################
+    
+#QUESTÃO CAMPO ABERTO
+class QuestaoCA(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    descricao = db.Column(db.String, nullable = False)
+    resposta_correta = Column(Numeric(precision=10, scale=2), nullable=False) ## 10 dígitos de precisão com 2 casas decimais
+
+
     

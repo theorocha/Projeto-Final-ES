@@ -11,3 +11,6 @@ flask db upgrade
 e para executar com debugger on:
 
 flask --app run run --debug
+
+git pull origin main para sincronizar o repositório com o do grupo.
+git push origin main para subir alterações
