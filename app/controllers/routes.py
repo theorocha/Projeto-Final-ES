@@ -53,7 +53,9 @@ def logout():
     return redirect(url_for('login'))
 
 
-@app.route("/criaQuestao",methods=['GET', 'POST'])
+@app.route("/questoes",methods=['GET', 'POST'])
 @login_required
 def criaQuestao():
-    return render_template('criaQuestao.html')
+    return render_template('questoes.html')
+
+
