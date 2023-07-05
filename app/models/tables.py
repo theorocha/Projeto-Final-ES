@@ -39,7 +39,8 @@ class QuestaoCE(db.Model):
 class QuestaoCA(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     descricao = db.Column(db.String, nullable = False)
-    resposta_correta = Column(Numeric(precision=10, scale=2), nullable=False) ## 10 dígitos de precisão com 2 casas decimais
+    resposta_correta = Column(Integer, nullable=False)
 
+###############################################################################################################
 
-    
+#EXAMES

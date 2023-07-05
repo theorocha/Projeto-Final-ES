@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="../static/bootstrap-5.3.0-dist/css/bootstrap.min.css"
+    />
+    <title>Questão certo ou errado</title>
+    <style>
+      body {
+        background: #201b2c;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="mt-5 container">
+      <div class="container row justify-content-center">
+        <div class="col-md-6">
+          <form class="form-control">
+            <h1 class="text-center mb-4" style="color: #3c7c5e">Questão C/E</h1>
+            <label class="mb-1" for="enunciado">Enunciado</label>
+            <textarea
+              class="form-control"
+              type="text"
+              name="enunciado"
+              id="enunciado"
+              rows="10"
+              placeholder="Digite o enunciado da questão"
+              required
+            ></textarea>
+            <br />
+            <label class="mb-1" for="resposta">Resposta</label>
+            <br />
+            <input type="radio" name="resposta" value="certo" required />
+            Certo<br />
+            <input type="radio" name="resposta" value="errado" /> Errado<br />
+            <div style="display: flex; justify-content: center">
+              <button class="my-5 btn btn-outline-success btn-lg">
+                Criar questão
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -55,7 +55,24 @@ def logout():
 
 @app.route("/questoes",methods=['GET', 'POST'])
 @login_required
-def criaQuestao():
+def questoes():
     return render_template('questoes.html')
 
 
+@app.route("/criarME",methods=['GET', 'POST'])
+@login_required
+def cria_questaoME():
+    return render_template('criarME.html')
+
+@app.route("/criarCE",methods=['GET', 'POST'])
+@login_required
+def cria_questaoCE():
+    return render_template('criarCE.html')
+
+@app.route("/criarCA",methods=['GET', 'POST'])
+@login_required
+def cria_questaoCA():
+    return render_template('criarCA.html')
+
+
+# flask --app run run --debug
