@@ -6,11 +6,12 @@ from flask_login import UserMixin, login_required, LoginManager, login_user, log
 
 
 class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(9), nullable=False, unique=True)
+    id = db.Column(Integer, primary_key=True)
+    username = db.Column(String(9), nullable=False, unique=True)
+    email = db.Column(String(150), nullable=False, unique=True)
     password = db.Column(db.String(80), nullable=False)
 
-
+  
 ###############################################################################################################
 
 #QUESTÃO MULTIPLA ESCOLHA 

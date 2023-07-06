@@ -29,6 +29,7 @@ login_manager.init_app(app)
 bootstrap.init_app(app)
 from .cli_cmd import seed_cli
 app.cli.add_command(seed_cli)
+
 login_manager.login_view = "login"
 
 

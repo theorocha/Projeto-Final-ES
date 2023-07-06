@@ -1,16 +1,23 @@
 from flask.cli import AppGroup
 from app import db
-from .models.tables import QuestaoCE
-from .seed import questionCE
+from .models.tables import QuestaoCE, User
+from .seed import questionCE, users
 seed_cli = AppGroup("seed")
 
 
 #flask seed questionCE
 @seed_cli.command("questionCE")
-def seed_movies():
+def seed_questionCE():
     "Add seed data to the database."
     for question in questionCE:
         db.session.add(QuestaoCE(**question))
+    db.session.commit()
+
+@seed_cli.command("user")
+def seed_user():
+    "Add seed data to the database."
+    for user in users:
+        db.session.add(User(**user))
     db.session.commit()
 
 
