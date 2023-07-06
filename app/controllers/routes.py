@@ -1,8 +1,8 @@
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, request
 from flask_login import UserMixin, login_required, LoginManager, login_user, logout_user, current_user
 from app import app, bcrypt, login_manager, db
 
-from app.models.tables import User
+from app.models.tables import User, Questao, QuestaoCA,QuestaoCE, Alternativa
 from app.models.forms import LoginForm, RegisterForm
 
 
@@ -67,11 +67,28 @@ def cria_questaoME():
 @app.route("/criarCE",methods=['GET', 'POST'])
 @login_required
 def cria_questaoCE():
+    descricao = request.form.get('enunciado')
+    if request.form.get('resposta') == 'certo':
+        resposta_correta = True
+    else:
+        resposta_correta = False
+    if request.method == 'POST':
+        questao = QuestaoCE(descricao, resposta_correta)
+        db.session.add(questao)
+        db.session.commit()
+        return redirect(url_for('questoes'))
     return render_template('criarCE.html')
 
 @app.route("/criarCA",methods=['GET', 'POST'])
 @login_required
 def cria_questaoCA():
+    descricao = request.form.get('enunciado')
+    resposta_correta = request.form.get('ans')
+    if request.method == 'POST':
+        questao = QuestaoCA(descricao,resposta_correta)
+        db.session.add(questao)
+        db.session.commit()
+        return redirect(url_for('questoes'))
     return render_template('criarCA.html')
 
 

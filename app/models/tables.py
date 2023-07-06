@@ -10,6 +10,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(9), nullable=False, unique=True)
     password = db.Column(db.String(80), nullable=False)
 
+
 ###############################################################################################################
 
 #QUESTÃO MULTIPLA ESCOLHA 
@@ -33,6 +34,10 @@ class QuestaoCE(db.Model):
     descricao = db.Column(db.String, nullable = False)
     resposta_correta = Column(Boolean, nullable=False)
 
+    def __init__(self, descricao, resposta_correta):
+        self.descricao = descricao
+        self.resposta_correta = resposta_correta
+
 ###############################################################################################################
     
 #QUESTÃO CAMPO ABERTO
@@ -40,6 +45,10 @@ class QuestaoCA(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     descricao = db.Column(db.String, nullable = False)
     resposta_correta = Column(Integer, nullable=False)
+
+    def __init__(self, descricao, resposta_correta):
+        self.descricao = descricao
+        self.resposta_correta = resposta_correta
 
 ###############################################################################################################
 

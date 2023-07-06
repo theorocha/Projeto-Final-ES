@@ -18,7 +18,11 @@
     <div class="mt-5 container">
       <div class="container row justify-content-center">
         <div class="col-md-6">
-          <form class="form-control">
+          <form
+            action="{{url_for('cria_questaoCA')}}"
+            method="POST"
+            class="form-control"
+          >
             <h1 class="text-center mb-4" style="color: #3c7c5e">
               Questão caixa aberta
             </h1>

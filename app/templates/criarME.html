@@ -3,9 +3,93 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="../static/bootstrap-5.3.0-dist/css/bootstrap.min.css"
+    />
+    <title>Questão certo ou errado</title>
+    <style>
+      body {
+        background: #201b2c;
+      }
+    </style>
   </head>
   <body>
-    <h1>Tela das ME</h1>
+    <div class="mt-5 container">
+      <div class="container row justify-content-center">
+        <div class="col-md-6">
+          <form class="form-control">
+            <h1 class="text-center mb-4" style="color: #3c7c5e">
+              Questão múltipla escolha
+            </h1>
+            <label for="enunciado">Enunciado:</label>
+            <textarea
+              class="form-control"
+              type="text"
+              name="enunciado"
+              id="enunciado"
+              rows="5"
+              placeholder="Digite o enunciado da questão"
+              required
+            ></textarea>
+            <br />
+            <label for="alternativas">Alternativas:</label>
+            <br />
+            <div id="alternativas-container d-flex">
+              <div class="alternativa mb-4">
+                <input
+                  class="form-control"
+                  type="text"
+                  name="alternativa1"
+                  required
+                />
+
+                <input type="radio" name="correta" value="0" required />
+                Correta
+              </div>
+              <div class="alternativa mb-4">
+                <input
+                  class="form-control"
+                  type="text"
+                  name="alternativa2"
+                  required
+                />
+
+                <input type="radio" name="correta" value="1" required />
+                Correta
+              </div>
+              <div class="alternativa mb-4">
+                <input
+                  class="form-control"
+                  type="text"
+                  name="alternativa3"
+                  required
+                />
+
+                <input type="radio" name="correta" value="2" required />
+                Correta
+              </div>
+              <div class="alternativa">
+                <input
+                  class="form-control"
+                  type="text"
+                  name="alternativa4"
+                  required
+                />
+
+                <input type="radio" name="correta" value="3" required />
+                Correta
+              </div>
+            </div>
+            <br />
+            <div style="display: flex; justify-content: center">
+              <button class="my-5 btn btn-outline-success btn-lg">
+                Criar questão
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
