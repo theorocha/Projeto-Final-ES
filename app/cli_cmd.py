@@ -5,6 +5,7 @@ from .seed import questionCE
 seed_cli = AppGroup("seed")
 
 
+#flask seed questionCE
 @seed_cli.command("questionCE")
 def seed_movies():
     "Add seed data to the database."
@@ -13,3 +14,5 @@ def seed_movies():
     db.session.commit()
 
 
+
+##Para adicionar os dados -> flask seed <command.name>
