@@ -20,11 +20,20 @@ class Questao(db.Model):
     enunciado = Column(String(255), nullable=False)
     alternativas = relationship('Alternativa', backref='questao', lazy='select')
 
+    def __init__(self, enunciado):
+        self.enunciado = enunciado
+
 class Alternativa(db.Model):
     id = Column(Integer, primary_key=True)
     texto = Column(String(255), nullable=False)
     correta = Column(Boolean, nullable=False)
     questao_id = Column(Integer, ForeignKey('questao.id'))
+
+    
+    def __init__(self, texto, correta, questao_id):
+        self.texto = texto
+        self.correta = correta
+        self.questao_id = questao_id
 
 ###############################################################################################################
     

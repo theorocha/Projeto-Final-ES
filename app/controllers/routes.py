@@ -13,6 +13,13 @@ def load_user(user_id):
 
 @app.route("/")
 def home():
+        # # Excluindo todos os dados da tabela Questao
+        # db.session.query(Questao).delete()
+        # db.session.commit()
+
+        # # Excluindo todos os dados da tabela Alternativa
+        # db.session.query(Alternativa).delete()
+        # db.session.commit()
         return render_template('home.html')
 
 
@@ -56,13 +63,44 @@ def logout():
 @app.route("/questoes",methods=['GET', 'POST'])
 @login_required
 def questoes():
-    return render_template('questoes.html')
+    questoes = Questao.query.all()
+    return render_template('questoes.html', questoes = questoes)
 
 
-@app.route("/criarME",methods=['GET', 'POST'])
+@app.route("/criarME", methods=['GET', 'POST'])
 @login_required
 def cria_questaoME():
+    if request.method == 'POST':
+        # Capturando dados do formulário
+        enunciado = request.form.get('enunciado')
+        alternativa1 = request.form.get('alternativa1')
+        alternativa2 = request.form.get('alternativa2')
+        alternativa3 = request.form.get('alternativa3')
+        alternativa4 = request.form.get('alternativa4')
+        correta = int(request.form.get('correta'))
+
+        # Criação da instância da questao
+        questao = Questao(enunciado=enunciado)
+        db.session.add(questao)
+        db.session.commit()
+
+        # Amarrando as alternativas às questões
+        alternativas = [
+            Alternativa(texto=alternativa1, correta=(correta == 0), questao_id=questao.id),
+            Alternativa(texto=alternativa2, correta=(correta == 1), questao_id=questao.id),
+            Alternativa(texto=alternativa3, correta=(correta == 2), questao_id=questao.id),
+            Alternativa(texto=alternativa4, correta=(correta == 3), questao_id=questao.id)
+        ]
+
+        # Salvando as alternativas
+        for alternativa in alternativas:
+            db.session.add(alternativa)
+        db.session.commit()
+
+        return redirect(url_for('questoes'))
+
     return render_template('criarME.html')
+
 
 @app.route("/criarCE",methods=['GET', 'POST'])
 @login_required
