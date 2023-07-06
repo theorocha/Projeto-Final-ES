@@ -2,7 +2,7 @@ from flask import render_template, redirect, url_for, request
 from flask_login import UserMixin, login_required, LoginManager, login_user, logout_user, current_user
 from app import app, bcrypt, login_manager, db
 
-from app.models.tables import User, Questao, QuestaoCA,QuestaoCE, Alternativa
+from app.models.tables import User, Questao, QuestaoCA,QuestaoCE, Alternativa,Exame
 from app.models.forms import LoginForm, RegisterForm
 
 
@@ -132,5 +132,15 @@ def cria_questaoCA():
         return redirect(url_for('questoes'))
     return render_template('criarCA.html')
 
+@app.route("/exames",methods=['GET','POST'])
+@login_required
+def exames():
+    exames = Exame.query.all()
+    return render_template('exames.html',exames = exames)
+
+@app.route("/criarE",methods=['GET','POST'])
+@login_required
+def criar_exame():
+    return render_template('criarE.html')
 
 # flask --app run run --debug
