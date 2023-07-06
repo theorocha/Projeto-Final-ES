@@ -18,14 +18,8 @@ login_manager = LoginManager()
 bcrypt = Bcrypt()
 bootstrap = Bootstrap()
 
-app.config.from_mapping(
-        SECRET_KEY="dev",
-    )
-app.config.from_prefixed_env()
-app.config[
-  "SQLALCHEMY_DATABASE_URI"
-] = f"sqlite:///{os.path.join(basedir, 'data.sqlite')}"
-app.secret_key = "secret-key"
+app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///storage.db'
+app.config["SECRET_KEY"] = 'senhaseguraflask'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 
 migrate = Migrate(app, db)
