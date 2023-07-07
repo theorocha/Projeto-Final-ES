@@ -1,8 +1,9 @@
 from flask import render_template, redirect, url_for, request
 from flask_login import UserMixin, login_required, LoginManager, login_user, logout_user, current_user
 from app import app, bcrypt, login_manager, db
+from datetime import datetime
 
-from app.models.tables import User, Questao, QuestaoCA,QuestaoCE, Alternativa,Exame
+from app.models.tables import User, Questao, QuestaoCA,QuestaoCE, Alternativa, Exame
 from app.models.forms import LoginForm, RegisterForm
 
 
@@ -141,6 +142,24 @@ def exames():
 @app.route("/criarE",methods=['GET','POST'])
 @login_required
 def criar_exame():
+    valor = request.form.get('valor')
+    if request.method == 'POST':
+        nome = request.form.get('exame_name')
+        horario_inicio_str = request.form.get('horario_inicio')
+        horario_inicio = datetime.strptime(horario_inicio_str, '%Y-%m-%dT%H:%M')
+
+        horario_fim_str = request.form.get('horario_fim')
+        horario_fim = datetime.strptime(horario_fim_str, '%Y-%m-%dT%H:%M')
+
+        qtd_questoes = request.form.get('qtd_questoes')
+
+        valor = request.form.get('valor')
+        exame = Exame(nome=nome, horario_inicio=horario_inicio, horario_fim=horario_fim, qtd_questoes=qtd_questoes, valor=valor)
+        db.session.add(exame)
+        db.session.commit()
+        return redirect(url_for('exames'))
     return render_template('criarE.html')
 
 # flask --app run run --debug
+
+

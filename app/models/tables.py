@@ -95,6 +95,8 @@ questoesCA = db.Table('questoesCA',
 class Exame(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String,nullable = False)
+    qtd_questoes = db.Column(db.Integer, nullable=False)
+    valor = db.Column(db.String, nullable=False)
     horario_inicio = db.Column(db.DateTime, nullable = False)
     horario_fim = db.Column(db.DateTime, nullable = False)
     questoes = db.relationship('Questao',secondary = questoes, lazy='subquery',
