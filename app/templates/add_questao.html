@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="../static/bootstrap-5.3.0-dist/css/bootstrap.min.css"
+    />
+    <title>Adicionar questões</title>
+    <style>
+      body {
+        background: #201b2c;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="mt-5 container">
+      <div class="container row justify-content-center">
+        <div class="col-md-6">
+          <form
+            action="{{url_for('add_questao')}}"
+            method="POST"
+            class="form-control"
+          >
+            <h1 class="text-center mb-4" style="color: #3c7c5e">
+              Questôes
+            </h1>     
+            
+            {% for question in questions %}
+              
+              <input id="questions" type="checkbox"></input>
+              <label for="questions"> {{question.enunciado }}</label>
+            {% endfor %}            
+            
+            
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
