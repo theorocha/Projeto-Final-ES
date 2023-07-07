@@ -1,9 +1,9 @@
-from flask import render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for, request, jsonify
 from flask_login import UserMixin, login_required, LoginManager, login_user, logout_user, current_user
 from app import app, bcrypt, login_manager, db
 from datetime import datetime
 
-from app.models.tables import User, Questao, QuestaoCA,QuestaoCE, Alternativa, Exame
+from app.models.tables import User, Questao, QuestaoCA,QuestaoCE, Alternativa, Exame, QuestaoExame
 from app.models.forms import LoginForm, RegisterForm
 
 
@@ -139,6 +139,40 @@ def exames():
     exames = Exame.query.all()
     return render_template('exames.html',exames = exames)
 
+@app.route("/exames/edit/<id>",methods=['GET'])
+@login_required
+def exames_edit(id):
+    # carga de questões
+    questionsME = [(a. id, a.enunciado) for a in Questao.query.all()]
+    questionsCA = [(a. id, a.descricao) for a in QuestaoCA.query.all()]
+    questionsCE = [(a. id, a.descricao) for a in QuestaoCE.query.all()]
+
+    return render_template('exame_edit.html', id=id, questionsME=questionsME, questionsCA=questionsCA, questionsCE=questionsCE)
+
+
+@app.route("/exames/edit/<id>/update",methods=['POST'])
+@login_required
+def exames_update(id):
+    # obtenção das questoes
+    questionsME = request.form.getlist('questionsME')
+    questionsCA = request.form.getlist('questionsCA')
+    questionsCE = request.form.getlist('questionsCE')
+
+    # salvando as questoes
+    print("# inserindo questoes no exame", questionsME, questionsCA, questionsCE)
+    for q in questionsME:
+        qME = QuestaoExame(exame=id, questao_id=q, tipo='ME')
+        db.session.add(qME)
+    for q in questionsCA:
+        qCA = QuestaoExame(exame=id, questao_id=q, tipo='CA')
+        db.session.add(qCA)
+    for q in questionsCE:
+        qCE = QuestaoExame(exame=id, questao_id=q, tipo='CE')
+        db.session.add(qCE)
+    
+    db.session.commit()
+    return redirect(url_for("exames"))
+
 @app.route("/criarE",methods=['GET','POST'])
 @login_required
 def criar_exame():
@@ -159,7 +193,4 @@ def criar_exame():
         db.session.commit()
         return redirect(url_for('exames'))
     return render_template('criarE.html')
-
-# flask --app run run --debug
-
 
