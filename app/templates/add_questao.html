@@ -7,7 +7,11 @@
       rel="stylesheet"
       href="../static/bootstrap-5.3.0-dist/css/bootstrap.min.css"
     />
+<<<<<<< HEAD
     <title>Adicionar questões</title>
+=======
+    <title>Questão certo ou errado</title>
+>>>>>>> 7286189f (add exam questions)
     <style>
       body {
         background: #201b2c;
@@ -24,6 +28,7 @@
             class="form-control"
           >
             <h1 class="text-center mb-4" style="color: #3c7c5e">
+<<<<<<< HEAD
               Questôes
             </h1>     
             
@@ -34,6 +39,22 @@
             {% endfor %}            
             
             
+=======
+              Questões
+            </h1>     
+            
+            
+            
+
+              {% for questao in questions  %}
+                    <input id='name'type="checkbox"></input>
+                    <label for="name"> {{ questao.enunciado }} </label>
+              {% endfor %}             
+
+
+            
+            <br />
+>>>>>>> 7286189f (add exam questions)
           </form>
         </div>
       </div>
