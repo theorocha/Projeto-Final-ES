@@ -3,7 +3,7 @@ from flask_login import UserMixin, login_required, LoginManager, login_user, log
 from app import app, bcrypt, login_manager, db
 from datetime import datetime
 
-from app.models.tables import User, Questao, QuestaoCA,QuestaoCE, Alternativa, Exame, QuestaoExame
+from app.models.tables import User, Questao, Alternativa, Exame, QuestaoExame
 from app.models.forms import LoginForm, RegisterForm
 
 
@@ -105,7 +105,7 @@ def cria_questaoME():
 
     return render_template('criarME.html')
 
-
+'''
 @app.route("/criarCE",methods=['GET', 'POST'])
 @login_required
 def cria_questaoCE():
@@ -132,7 +132,7 @@ def cria_questaoCA():
         db.session.commit()
         return redirect(url_for('questoes'))
     return render_template('criarCA.html')
-
+'''
 @app.route("/exames",methods=['GET','POST'])
 @login_required
 def exames():
@@ -144,10 +144,11 @@ def exames():
 def exames_edit(id):
     # carga de questões
     questionsME = [(a. id, a.enunciado) for a in Questao.query.all()]
-    questionsCA = [(a. id, a.descricao) for a in QuestaoCA.query.all()]
-    questionsCE = [(a. id, a.descricao) for a in QuestaoCE.query.all()]
+    #questionsCA = [(a. id, a.descricao) for a in QuestaoCA.query.all()]
+    #questionsCE = [(a. id, a.descricao) for a in QuestaoCE.query.all()]
 
-    return render_template('exame_edit.html', id=id, questionsME=questionsME, questionsCA=questionsCA, questionsCE=questionsCE)
+    #return render_template('exame_edit.html', id=id, questionsME=questionsME, questionsCA=questionsCA, questionsCE=questionsCE)
+    return render_template('exame_edit.html', id=id, questionsME=questionsME)
 
 
 @app.route("/exames/edit/<id>/update",methods=['POST'])
