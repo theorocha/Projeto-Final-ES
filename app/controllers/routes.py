@@ -65,7 +65,10 @@ def logout():
 @login_required
 def questoes():
     questoes = Questao.query.all()
-    return render_template('questoes.html', questoes = questoes)
+    questoes_ca = QuestaoCA.query.all()
+    questoes_ce = QuestaoCE.query.all()
+    return render_template('questoes.html', questoes=questoes, questoes_ca=questoes_ca, questoes_ce=questoes_ce)
+
 
 
 @app.route("/criarME", methods=['GET', 'POST'])

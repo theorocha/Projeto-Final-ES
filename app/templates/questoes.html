@@ -22,16 +22,29 @@
             >Criar questão múltipla escolha</a
           >
         </div>
-        <div>
-          {% for questao in questoes %}
-          <h3>{{ questao.enunciado }}</h3>
-          <ul>
-            {% for alternativa in questao.alternativas %}
-            <li>{{ alternativa.texto }}</li>
+        <table class="table ms-2 mt-5 table-hover table-bordered table-striped">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Enunciado</th>
+              <th scope="col">Alternativas</th>
+              <th scope="col">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for questao in questoes %}
+            <tr>
+              <td>{{ questao.id }}</td>
+              <td>{{ questao.enunciado }}</td>
+              <td>
+                {% for alternativa in questao.alternativas %} {{
+                alternativa.texto }} <br />{% endfor %}
+              </td>
+              <td>Ações</td>
+            </tr>
             {% endfor %}
-          </ul>
-          {% endfor %}
-        </div>
+          </tbody>
+        </table>
       </div>
       <div class="col-questao">
         <h1 style="text-align: center">Certo ou errado</h1>
@@ -43,6 +56,24 @@
             >Criar questão certo ou errado</a
           >
         </div>
+        <table class="table ms-2 mt-5 table-hover table-bordered table-striped">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Enunciado</th>
+              <th scope="col">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for questao in questoes_ce %}
+            <tr>
+              <td>{{ questao.id }}</td>
+              <td>{{ questao.descricao }}</td>
+              <td>Ações</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
       <div class="col-questao">
         <h1 style="text-align: center">Caixa aberta</h1>
@@ -54,6 +85,24 @@
             >Criar questão de caixa aberta</a
           >
         </div>
+        <table class="table ms-2 mt-5 table-hover table-bordered table-striped">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Enunciado</th>
+              <th scope="col">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for questao in questoes_ca %}
+            <tr>
+              <td>{{ questao.id }}</td>
+              <td>{{ questao.descricao }}</td>
+              <td>Ações</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
     </div>
   </body>
