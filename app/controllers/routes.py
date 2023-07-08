@@ -114,7 +114,7 @@ def add_questoes():
 
     return redirect(url_for('add_questoes_view'))
 
-
+'''
 @app.route("/criarME", methods=['GET', 'POST'])
 @login_required
 def cria_questaoME():
@@ -153,7 +153,7 @@ def cria_questaoME():
 @app.route("/criarCE",methods=['GET', 'POST'])
 @login_required
 def cria_questaoCE():
-    '''
+
     descricao = request.form.get('enunciado')
     if request.form.get('resposta') == 'certo':
         resposta_correta = True
@@ -164,13 +164,14 @@ def cria_questaoCE():
         db.session.add(questao)
         db.session.commit()
         return redirect(url_for('questoes'))
-    '''
+    
     return render_template('criarCE.html')
+
 
 @app.route("/criarCA",methods=['GET', 'POST'])
 @login_required
 def cria_questaoCA():
-    '''
+
     descricao = request.form.get('enunciado')
     resposta_correta = request.form.get('ans')
     if request.method == 'POST':
@@ -178,8 +179,9 @@ def cria_questaoCA():
         db.session.add(questao)
         db.session.commit()
         return redirect(url_for('questoes'))
-    '''
+
     return render_template('criarCA.html')
+'''
 
 @app.route("/exames",methods=['GET','POST'])
 @login_required
