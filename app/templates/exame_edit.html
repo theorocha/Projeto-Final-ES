@@ -7,21 +7,9 @@
     <br>
     <form action="{{ url_for('exames_update', id=id) }}" method="post">
         <h4>Selecione as questões que faz parte do exame</h4>
-        <label for="selectedQuestions" style="display: 0; float: left;">Multipla escolha:</label>
-        <select class="form-select" name="questionsME" id="selectedQuestions" multiple >
-            {% for q in questionsME %}
-            <option value="{{ q[0] }}">{{ q[1] }}</option>
-            {% endfor %}
-        </select>
-        <label for="selectedQuestions" style="display: 0; float: left;">Certo/Errado:</label>
-        <select class="form-select" name="questionsCE" id="selectedQuestions" multiple >
-            {% for q in questionsCE %}
-            <option value="{{ q[0] }}">{{ q[1] }}</option>
-            {% endfor %}
-        </select>
-        <label for="selectedQuestions" style="display: 0; float: left;">Argumentativa:</label>
-        <select class="form-select" name="questionsCA" id="selectedQuestions" multiple >
-            {% for q in questionsCA %}
+        <label for="selectedQuestions" style="display: 0; float: left;">Questões:</label>
+        <select class="form-select" name="questoes" id="selectedQuestions" multiple >
+            {% for q in questoes %}
             <option value="{{ q[0] }}">{{ q[1] }}</option>
             {% endfor %}
         </select>

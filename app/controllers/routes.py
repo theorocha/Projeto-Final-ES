@@ -101,6 +101,8 @@ def add_questoes():
         db.session.commit()
         
     elif tipo=="CE":
+        if certo_errado: certo_errado = "CERTO"
+        else: certo_errado = "ERRADO"
         questao = Questao(tipo=tipo, enunciado=enunciado, correta=certo_errado)
         db.session.add(questao)
         db.session.commit()
@@ -189,34 +191,22 @@ def exames():
 @login_required
 def exames_edit(id):
     # carga de questões
-    questionsME = [(a. id, a.enunciado) for a in Questao.query.all()]
-    #questionsCA = [(a. id, a.descricao) for a in QuestaoCA.query.all()]
-    #questionsCE = [(a. id, a.descricao) for a in QuestaoCE.query.all()]
+    questoes = [(a. id, a.enunciado) for a in Questao.query.all()]
 
-    #return render_template('exame_edit.html', id=id, questionsME=questionsME, questionsCA=questionsCA, questionsCE=questionsCE)
-    return render_template('exame_edit.html', id=id, questionsME=questionsME)
+    return render_template('exame_edit.html', id=id, questoes=questoes)
 
 
 @app.route("/exames/edit/<id>/update",methods=['POST'])
 @login_required
 def exames_update(id):
     # obtenção das questoes
-    questionsME = request.form.getlist('questionsME')
-    questionsCA = request.form.getlist('questionsCA')
-    questionsCE = request.form.getlist('questionsCE')
-
+    questoes = request.form.getlist('questoes')
     # salvando as questoes
-    print("# inserindo questoes no exame", questionsME, questionsCA, questionsCE)
-    for q in questionsME:
-        qME = QuestaoExame(exame=id, questao_id=q, tipo='ME')
-        db.session.add(qME)
-    for q in questionsCA:
-        qCA = QuestaoExame(exame=id, questao_id=q, tipo='CA')
-        db.session.add(qCA)
-    for q in questionsCE:
-        qCE = QuestaoExame(exame=id, questao_id=q, tipo='CE')
-        db.session.add(qCE)
-    
+    print("# inserindo questoes no exame", questoes)
+    for q in questoes:
+        quest = QuestaoExame(exame_id=int(id), questao_id=int(q))
+        db.session.add(quest)
+
     db.session.commit()
     return redirect(url_for("exames"))
 
