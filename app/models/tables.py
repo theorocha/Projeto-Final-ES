@@ -100,7 +100,7 @@ class Questao(db.Model):
     id = Column(Integer, primary_key=True)
     tipo = Column(Enum('ME', 'CE', 'CA'), nullable=False)
     enunciado = Column(String(255), nullable=False)
-    correta = Column(String(255), nullable=False)
+    correta = Column(String(255))
     alternativas:  Mapped[list["Alternativa"]] = relationship(back_populates="questao")
 
 class Alternativa(db.Model):

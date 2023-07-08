@@ -64,11 +64,53 @@ def logout():
     return redirect(url_for('login'))
 
 
-@app.route("/questoes",methods=['GET', 'POST'])
+@app.route("/questoes",methods=['GET'])
 @login_required
 def questoes():
     questoes = Questao.query.all()
-    return render_template('questoes.html', questoes = questoes)
+    return render_template('questoes_view.html', questoes = questoes)
+
+
+@app.route("/questoes/add",methods=['GET'])
+@login_required
+def add_questoes_view(): return render_template('add_questao.html')
+
+@app.route("/questoes/add",methods=['POST'])
+@login_required
+def add_questoes():
+    tipo = request.form.get("tipo")
+    enunciado = request.form.get("enunciado")
+    resposta_correta = request.form.get("resposta_correta")
+    certo_errado = request.form.get("certo_errado")
+    alternativas = request.form.getlist("alternativas")
+    alternativa_correta = request.form.get("alternativa_correta")
+
+    if tipo == "ME":
+        questao = Questao(tipo=tipo, enunciado=enunciado, correta=None)
+        db.session.add(questao)
+        db.session.commit()
+        i=0
+        for a in alternativas:
+            alternativa = Alternativa(
+                texto=a,
+                correta=(i==int(alternativa_correta)),
+                questao_id = questao.id
+            )
+            db.session.add(alternativa)
+            i+=1
+        db.session.commit()
+        
+    elif tipo=="CE":
+        questao = Questao(tipo=tipo, enunciado=enunciado, correta=certo_errado)
+        db.session.add(questao)
+        db.session.commit()
+
+    elif tipo=="CA":
+        questao = Questao(tipo=tipo, enunciado=enunciado, correta=resposta_correta)
+        db.session.add(questao)
+        db.session.commit()
+
+    return redirect(url_for('add_questoes_view'))
 
 
 @app.route("/criarME", methods=['GET', 'POST'])
@@ -105,10 +147,11 @@ def cria_questaoME():
 
     return render_template('criarME.html')
 
-'''
+
 @app.route("/criarCE",methods=['GET', 'POST'])
 @login_required
 def cria_questaoCE():
+    '''
     descricao = request.form.get('enunciado')
     if request.form.get('resposta') == 'certo':
         resposta_correta = True
@@ -119,11 +162,13 @@ def cria_questaoCE():
         db.session.add(questao)
         db.session.commit()
         return redirect(url_for('questoes'))
+    '''
     return render_template('criarCE.html')
 
 @app.route("/criarCA",methods=['GET', 'POST'])
 @login_required
 def cria_questaoCA():
+    '''
     descricao = request.form.get('enunciado')
     resposta_correta = request.form.get('ans')
     if request.method == 'POST':
@@ -131,8 +176,9 @@ def cria_questaoCA():
         db.session.add(questao)
         db.session.commit()
         return redirect(url_for('questoes'))
+    '''
     return render_template('criarCA.html')
-'''
+
 @app.route("/exames",methods=['GET','POST'])
 @login_required
 def exames():

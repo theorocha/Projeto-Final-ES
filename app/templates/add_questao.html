@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Nova questão{% endblock %}
+
+{% block content %}
+    <h2>Nova questão</h2>
+    <form action="{{ url_for('add_questoes') }}" method="post">
+        <div class="form-group">
+            <label for="">Escolha um tipo:</label>
+            <select name="tipo" id="tipo" class="form-control">
+                <option selected value="">-- . --</option>
+                <option value="ME">Multipla escolha</option>
+                <option value="CE">Certo/Errado</option>
+                <option value="CA">Argumentativa</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="">Enunciado:</label>
+            <input type="text" name="enunciado" class="form-control">
+        </div>
+
+        <div hidden class="form-group" id="resposta_div">
+            <label for="">Resposta correta:</label>
+            <input type="text" name="resposta_correta" class="form-control">
+        </div>
+
+        <div hidden class="form-group" id="certo_errado_div">
+            <label for="">Certo?</label>
+            <input type="checkbox" name="certo_errado" class="form-check-input">
+        </div>
+        
+        <div hidden class="form-group" id="alternativas_div">
+            <label for="">Alternativas:</label>
+            <input type="text" name="alternativas" class="form-control">
+            <input type="radio" value="0" name="alternativa_correta" class="form-check-input">
+            <input type="text" name="alternativas" class="form-control">
+            <input type="radio" value="1" name="alternativa_correta" class="form-check-input">
+            <input type="text" name="alternativas" class="form-control">
+            <input type="radio" value="2" name="alternativa_correta" class="form-check-input">
+            <input type="text" name="alternativas" class="form-control">
+            <input type="radio" value="3" name="alternativa_correta" class="form-check-input">
+        </div>
+        <br>
+        <button class="btn btn-light" type="submit">Adicionar</button>
+
+    </form>
+
+    <script src="/static/js/questoes_tipo.js"></script>
+{% endblock %}
