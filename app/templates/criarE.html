@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="../static/bootstrap-5.3.0-dist/css/bootstrap.min.css"
+    />
+    <title>Questão certo ou errado</title>
+    <style>
+      body {
+        background: #201b2c;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="mt-5 container">
+      <div class="container row justify-content-center">
+        <div class="col-md-6">
+          <form
+            action="{{url_for('criar_exame')}}"
+            method="POST"
+            class="form-control"
+          >
+            <h1 class="text-center mb-4" style="color: #3c7c5e">
+              Exame
+            </h1>     
+            
+            
+            <!-- NAME OF EXAM -->
+            <div class="input-group d-flex flex-column ">
+              <div class="field d-flex mb-3 justify-content-start ">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">Nome</span>
+                </div>
+                <input type="text" class="form-control" name="exame_name" placeholder="Nome do exame" aria-label="Username" aria-describedby="basic-addon1">
+              </div>
+
+
+
+
+              <!-- NAME OF EXAM -->
+              <div class="field d-flex mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">Valor</span>
+                </div>
+                <input type="" class="form-control" name="valor" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
+              </div>
+
+
+
+
+              <!-- NAME OF EXAM -->
+              <div class="field d-flex mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">Início</span>
+                  </div>
+                  <input type="datetime-local" name="horario_inicio" class="form-control"  aria-label="Username" aria-describedby="basic-addon1">
+              </div>
+
+
+              <!-- NAME OF EXAM -->
+              <div class="field d-flex mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text px-4" id="basic-addon1">Fim</span>
+                  </div>
+                  <input type="datetime-local" name="horario_fim" class="form-control"  aria-label="Username" aria-describedby="basic-addon1">
+              </div>
+              <!-- NAME OF EXAM -->
+              <div class="field d-flex mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">Nª questões</span>
+                </div>
+                <input type="number" class="form-control" name="qtd_questoes" aria-label="Username" aria-describedby="basic-addon1">
+              </div>
+            </div>
+          </div>
+            <br />
+            <div style="display: flex; justify-content: center">
+              <button class="my-5 btn btn-outline-success btn-lg">
+                Criar exame
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

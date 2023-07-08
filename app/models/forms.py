@@ -7,6 +7,7 @@ from app.models.tables import User
 class RegisterForm(FlaskForm):
     username = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Matrícula"})
     password = PasswordField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Senha"})
+    email = PasswordField(validators=[InputRequired(), Length(min=4, max=30)], render_kw={"placeholder": "Email"})
     submit = SubmitField("Register")
 
     def validate_username(self, username):
