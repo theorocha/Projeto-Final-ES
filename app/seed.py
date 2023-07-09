@@ -77,12 +77,14 @@ users = [
     {
         "username": "pedro",
         "email":"pedro@unb.br",
-        "password":"asdfg" 
+        "password":"asdfg" ,
+        "professor": True
     },
     {
         "username": "ester",
         "email": "ester@unb.br",
-        "password":  "asdfg"
+        "password":  "asdfg",
+        "professor": False
     }
 ]
 

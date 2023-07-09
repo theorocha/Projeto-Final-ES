@@ -43,7 +43,7 @@ def register():
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data)
         
-        new_user = User(username=form.username.data, email = form.email.data, password=hashed_password)
+        new_user = User(username=form.username.data, email = form.email.data, password=hashed_password,professor = form.professor.data)
        
         db.session.add(new_user)
         db.session.commit()
@@ -54,7 +54,7 @@ def register():
 @app.route("/user")
 @login_required
 def user():
-    if current_user.username == "pedro":
+    if current_user.professor == True:
         return render_template('prof.html')
     else:
         exames = Exame.query.all()
