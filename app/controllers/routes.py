@@ -54,7 +54,11 @@ def register():
 @app.route("/user")
 @login_required
 def user():
-    return render_template('user.html')
+    if current_user.username == "pedro":
+        return render_template('prof.html')
+    else:
+        exames = Exame.query.all()
+        return render_template('aluno.html', exames=exames)
 
 
 @app.route("/logout", methods=['GET', 'POST'])

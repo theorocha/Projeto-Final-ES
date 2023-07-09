@@ -1,28 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Página do Aluno</title>
-  </head>
-  <body>
-    <h1 style="color: white; text-align: center">
-      Ola, {{current_user.username }}
-    </h1>
+{% extends "base.html" %}
 
-    <br />
-    <div class="bottom-links">
-      <a class="btn btn-primary btn-lg" href="{{ url_for('logout')  }}"
-        >Logout</a
-      >
-    </div>
-    <footer class="footer fixed-bottom mt-auto py-3 text-light">
-      <div class="container text-center">
-        <span
-          >&copy; 2023 <br />
-          Engenharia de Software</span
-        >
-      </div>
-    </footer>
+{% block title %}Aluno{% endblock %}
+
+{% block content %}
+    <h2 class="text-center">Ola, {{current_user.username }}</h2>
+
+    <h4>Exames:</h4>
+    <ul>
+    {% for e in exames %}
+      <li>
+        <a href="{{ e.id }}">{{ e.nome }}</a>
+      </li>
+    {% endfor %}
+    </ul>
+
+{% endblock %}
   </body>
 </html>
