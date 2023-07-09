@@ -10,11 +10,62 @@
     <a class="btn btn-sm btn-outline-secondary text-light" href="{{ url_for('add_questoes_view')}}">
         Criar questão
     </a>
-
-    <ul>
-    {% for q in questoes %}
-    <li>{{ q.enunciado }}</li>
-    {% endfor %}
-    </ul>
+    <hr>
+    <div class="row">
+        <div class="col">
+            <h2 style="text-align: center">Múltipla escolha</h1>
+            <table class="table table-dark">
+                {% for q in questoes %}
+                {% if q.tipo == 'ME' %}
+                <tr>
+                    <td>{{ q.enunciado }}</td>
+                    <td>
+                        <ul>
+                            {% for a in q.alternativas %}
+                            <li>
+                                {{ a.texto }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    
+                    </td>
+                    <td><a href="">Editar e Excluir</a>
+                    </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </table>
+        </div>
+        <div class="col">
+            <h2 style="text-align: center">Certo Errado</h1>
+            <table class="table table-dark">
+                {% for q in questoes %}
+                {% if q.tipo == 'CE' %}
+                <tr>
+                    <td>{{ q.enunciado }}</td>
+                    <td>{{ q.correta }}</td>
+                    <td><a href="">Editar e Excluir</a>
+                    </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </table>
+        </div>
+        <div class="col">
+            <h2 style="text-align: center">Argumentativas</h1>
+            <table class="table table-dark">
+                {% for q in questoes %}
+                {% if q.tipo == 'CA' %}
+                <tr>
+                    <td>{{ q.enunciado }}</td>
+                    <td>{{ q.correta }}</td>
+                    <td><a href="">Editar e Excluir</a>
+                    </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </table>
+        </div>
+    </div>
 
 {% endblock %}
