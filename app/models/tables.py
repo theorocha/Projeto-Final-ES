@@ -144,3 +144,28 @@ class QuestaoExame(db.Model):
 
     exame: Mapped["Exame"] = relationship(foreign_keys="QuestaoExame.exame_id")
     questao: Mapped["Questao"] = relationship(foreign_keys="QuestaoExame.questao_id")
+
+
+class RespotasExameUser(db.Model):
+    __tablename__ = 'respostas_exame'
+
+    id = Column(Integer, primary_key=True)
+    exame_id: Mapped["Exame"] = mapped_column(ForeignKey("exames.id"))
+    user_id: Mapped["User"] = mapped_column(ForeignKey("user.id"))
+    respostas:  Mapped[list["RespostasQuestoes"]] = relationship(back_populates="resposta")
+    
+    exame: Mapped["Exame"] = relationship(foreign_keys="RespotasExameUser.exame_id")
+    user: Mapped["User"] = relationship(foreign_keys="RespotasExameUser.user_id")
+
+
+class RespostasQuestoes(db.Model):
+    __tablename__ = 'respostas_questoes'
+
+    id = Column(Integer, primary_key=True)
+    resposta = Column(String)
+    questao_id: Mapped["Questao"] = mapped_column(ForeignKey("questoes.id"))
+    reposta_exame_id: Mapped["RespotasExameUser"] = mapped_column(ForeignKey("respostas_exame.id"))
+
+    questao: Mapped["Questao"] = relationship(foreign_keys="RespostasQuestoes.questao_id")
+    resposta: Mapped["RespotasExameUser"] = relationship(foreign_keys="RespostasQuestoes.reposta_exame_id")
+

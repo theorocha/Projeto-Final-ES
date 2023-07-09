@@ -237,3 +237,19 @@ def criar_exame():
         return redirect(url_for('exames'))
     return render_template('criarE.html')
 
+
+@app.route("/exame/<id>/",methods=['GET'])
+@login_required
+def responde_exame_view(id):
+    exame = Exame.query.filter_by(id=id).first()
+    questoes = [Questao.query.filter_by(id=e.questao_id).first() for e in exame.questoes]
+    return render_template('responde_exame.html', exame=exame, questoes=questoes)
+
+@app.route("/exame/<id>/",methods=['POST'])
+@login_required
+def responde_exame(id):
+    respostasME = request.form.getlist('respostasME')
+    respostasCE = request.form.getlist('respostasCE')
+    respostasCA = request.form.getlist('respostasCA')
+    print(respostasME, respostasCE, respostasCA)
+    return redirect(url_for("user"))

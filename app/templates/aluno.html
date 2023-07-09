@@ -9,7 +9,7 @@
     <ul>
     {% for e in exames %}
       <li>
-        <a href="{{ e.id }}">{{ e.nome }}</a>
+        <a href="{{ url_for('responde_exame_view', id=e.id) }}">{{ e.nome }}</a>
       </li>
     {% endfor %}
     </ul>
