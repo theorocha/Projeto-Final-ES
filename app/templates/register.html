@@ -17,23 +17,20 @@
             <div class="textfield">
               {{form.hidden_tag()}} 
               {{form.username(class="textfield")}}
-              <ul>
+              
                 {% for error in form.username.errors %}
-                  <li> {{error}}</li>
+                  <li> <span style="color:red">{{error}}</span></li>
                 {% endfor %}
               </ul>
               {{form.password(class="textfield")}}
               <ul>
                 {% for error in form.password.errors %}
-                  <li> {{error}}</li>
+                  <li><span style="color: red">{{error}}</span></li>
                 {% endfor %}
               </ul>
               {{form.confirm_password(class="textfield")}}
-
-              {{form.professor.label }}
-              {{form.professor(class="textfield")}}
-
               {{form.email(class="textfield")}}
+              {{form.professor(class="textfield")}}
             </div>
             <div>
               {{form.submit(class="btn-login")}}

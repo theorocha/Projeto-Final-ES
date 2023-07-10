@@ -7,23 +7,24 @@
     <br>
     <form action="{{ url_for('responde_exame', id=exame.id) }}" method="post">
         {% for q in questoes %}
-        <div class="card"><div class="card-body">
-            <h5>{{ q.enunciado }}</h5>
-            {% if q.tipo == 'CE' %}
-            <label for="">CERTO</label>
-            <input type="radio" name="respostasCE" value="CERTO" class="form-check-input">
-            <br>
-            <label for="">ERRADO</label>
-            <input type="radio" name="respostasCE" value="ERRADO" class="form-check-input">
-            {% elif q.tipo == 'ME' %}
-            {% for a in q.alternativas %}
-            <label for="">{{ a.texto }}</label>
-            <input type="radio" name="respostasME" value="{{ a.texto }}" class="form-check-input">
-            <br>
-            {% endfor %}
-            {% elif q.tipo == 'CA' %}
-            <input type="text" name="respostasCA" class="form-control">
-            {% endif %}
+        <div class="card">
+            <div class="card-body">
+                <h5>{{ q.enunciado }}</h5>
+                {% if q.tipo == 'CE' %}
+                    <label for="">CERTO</label>
+                    <input type="radio" name="respostasCE" value="CERTO" class="form-check-input">
+                    <br>
+                    <label for="">ERRADO</label>
+                    <input type="radio" name="respostasCE" value="ERRADO" class="form-check-input">
+                {% elif q.tipo == 'ME' %}
+                    {% for a in q.alternativas %}
+                        <label for="">{{ a.texto }}</label>
+                        <input type="radio" name="respostasME" value="{{ a.texto }}" class="form-check-input">
+                        <br>
+                    {% endfor %}
+                {% elif q.tipo == 'CA' %}
+                    <input type="text" name="respostasCA" class="form-control">
+                {% endif %}
             
         </div></div>
         {% endfor %}

@@ -2,6 +2,7 @@ from flask import render_template, redirect, url_for, request, jsonify
 from flask_login import UserMixin, login_required, LoginManager, login_user, logout_user, current_user
 from app import app, bcrypt, login_manager, db
 from datetime import datetime
+from werkzeug.exceptions import abort
 
 from app.models.tables import User, Questao, Alternativa, Exame, QuestaoExame
 from app.models.forms import LoginForm, RegisterForm
@@ -11,6 +12,12 @@ from app.models.forms import LoginForm, RegisterForm
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+
+def get_questao(questao_id):
+    questao = Questao.query.filter_by(id=questao_id).first()
+    if questao is None:
+        abort(404)
+    return questao
 
 @app.route("/")
 def home():
@@ -54,11 +61,12 @@ def register():
 @app.route("/user")
 @login_required
 def user():
+    now = datetime.now()
     if current_user.professor == True:
         return render_template('prof.html')
     else:
         exames = Exame.query.all()
-        return render_template('aluno.html', exames=exames)
+        return render_template('aluno.html', exames=exames, now=now)
 
 
 @app.route("/logout", methods=['GET', 'POST'])
@@ -190,19 +198,20 @@ def cria_questaoCA():
 @app.route("/exames",methods=['GET','POST'])
 @login_required
 def exames():
+    now = datetime.now()
     exames = Exame.query.all()
-    return render_template('exames.html',exames = exames)
+    return render_template('exames.html', exames = exames, now = now)
 
 @app.route("/exames/edit/<id>",methods=['GET'])
 @login_required
 def exames_edit(id):
     # carga de questões
-    questoes = [(a. id, a.enunciado) for a in Questao.query.all()]
+    questoes = [(a.id, a.enunciado) for a in Questao.query.all()]
 
     return render_template('exame_edit.html', id=id, questoes=questoes)
 
 
-@app.route("/exames/edit/<id>/update",methods=['POST'])
+@app.route("/exames/edit/<id>/update",methods=['GET', 'POST'])
 @login_required
 def exames_update(id):
     # obtenção das questoes
