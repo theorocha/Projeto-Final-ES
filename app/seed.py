@@ -1,5 +1,21 @@
 import datetime
 
+
+users = [
+    {
+        "username": "pedro",
+        "email":"pedro@unb.br",
+        "password":"asdfg" ,
+        "professor": True
+    },
+    {
+        "username": "ester",
+        "email": "ester@unb.br",
+        "password":  "asdfg",
+        "professor": False
+    }
+]
+
 questoes = [
     {
         "tipo": "ME",
@@ -73,19 +89,28 @@ exames_questoes = [
     }
 ]
 
-users = [
+resposta_exame_user = [
     {
-        "username": "pedro",
-        "email":"pedro@unb.br",
-        "password":"asdfg" ,
-        "professor": True
-    },
-    {
-        "username": "ester",
-        "email": "ester@unb.br",
-        "password":  "asdfg",
-        "professor": False
+        "exame_id": 1, # teste 1
+        "user_id": 2 # ester
     }
 ]
 
+respostas_questoes = [
+    {
+        "resposta_user": "20",
+        "questao_id": 1,
+        "reposta_exame_id": 1
+    },
+    {
+        "resposta_user": "ERRADO",
+        "questao_id": 2,
+        "reposta_exame_id": 1
+    },
+    {
+        "resposta_user": "2023",
+        "questao_id": 3,
+        "reposta_exame_id": 1
+    }
+]
 

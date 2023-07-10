@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 
-{% block title %}Questões{% endblock %}
+{% block title %}Exames{% endblock %}
 
+{# CONFLITO
 {% block content %}
     <div class="d-flex text-center mt-4">
         <div class="col-questao">
@@ -51,15 +52,42 @@
             {% endfor %}
         </div>
 
-       
+#}
 
-        
-    </div>
+{% block content %}
 
-    <div class="d-flex justify-content-center mt-4">
-        <div class="bottom-links mt-5">
-            <a class="btn btn-sm btn-outline-secondary text-light" href="{{ url_for('criar_exame')}}">Criar Exame</a>
-        </div>
+<h2 class="text-center">Exames</h2>
+
+<div class="row text-center">
+    <div class="col">
+        <h3>Abertos</h3>
+        <ul class="list-group">
+        {% for exame in exames %}
+        {% if now < exame.horario_fim %}
+        <li class="list-group-item list-group-item-dark">
+            <p><a href="{{url_for('exames_edit', id=exame.id)}}">{{ exame.nome }}</a></p>
+            <p>{{ exame.horario_inicio}}</p>
+            <p>{{ exame.horario_fim }}</p>
+        </li>
+        {% endif %}
+        {% endfor %}
+        </ul>
     </div>
+    <div class="col">
+        <h3>Fechados</h3>
+        <ul class="list-group list-group-item-dark">
+        {% for exame in exames %}
+        {% if now > exame.horario_fim %}
+        <li class="list-group-item">
+            <p><a href="{{url_for('exames_relatorio', id=exame.id)}}">{{ exame.nome }}</a></p>
+            <p>{{ exame.horario_inicio}}</p>
+            <p>{{ exame.horario_fim }}</p>
+        </li>
+        {% endif %}
+        {% endfor %}
+        </ul>
+    </div>
+</div>
+
 
 {% endblock %}

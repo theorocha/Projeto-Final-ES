@@ -164,7 +164,7 @@ class RespostasQuestoes(db.Model):
     __tablename__ = 'respostas_questoes'
 
     id = Column(Integer, primary_key=True)
-    resposta = Column(String)
+    resposta_user = Column(String)
     questao_id: Mapped["Questao"] = mapped_column(ForeignKey("questoes.id"))
     reposta_exame_id: Mapped["RespotasExameUser"] = mapped_column(ForeignKey("respostas_exame.id"))
 

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Relatorio{% endblock %}
+
+{% block content %}
+
+<h2 class="text-center">Relatorio</h2>
+<br>
+<table class="table table-dark">
+    <th>Aluno</th>
+    {% for q in questoes %}
+    <th>{{ q }}</th>
+    {% endfor %}
+    {% for r in respostas %}
+    <tr>
+        <td>{{ r.user_id }}</td>
+        {% for u in r.respostas %}
+        <td>{{ u.resposta_user }}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

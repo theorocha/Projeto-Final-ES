@@ -4,7 +4,7 @@ from app import app, bcrypt, login_manager, db
 from datetime import datetime
 from werkzeug.exceptions import abort
 
-from app.models.tables import User, Questao, Alternativa, Exame, QuestaoExame
+from app.models.tables import User, Questao, Alternativa, Exame, QuestaoExame, RespostasQuestoes, RespotasExameUser
 from app.models.forms import LoginForm, RegisterForm
 
 
@@ -66,7 +66,15 @@ def user():
         return render_template('prof.html')
     else:
         exames = Exame.query.all()
-        return render_template('aluno.html', exames=exames, now=now)
+        respondidas_id = [r.exame_id for r in RespotasExameUser.query.all()]
+        exames_nao_respondidos = list()
+        exames_respondidos = list()
+        for e in exames:
+            if(e.id not in respondidas_id):
+                exames_nao_respondidos.append(e)
+            else:
+                exames_respondidos.append(e)
+        return render_template('aluno.html', exames_nao_respondidos=exames_nao_respondidos, exames_respondidos=exames_respondidos)
 
 
 @app.route("/logout", methods=['GET', 'POST'])
@@ -195,12 +203,13 @@ def cria_questaoCA():
     return render_template('criarCA.html')
 '''
 
-@app.route("/exames",methods=['GET','POST'])
+@app.route("/exames",methods=['GET'])
 @login_required
 def exames():
     now = datetime.now()
     exames = Exame.query.all()
-    return render_template('exames.html', exames = exames, now = now)
+
+    return render_template('exames.html', exames=exames, now=now)
 
 @app.route("/exames/edit/<id>",methods=['GET'])
 @login_required
@@ -224,6 +233,18 @@ def exames_update(id):
 
     db.session.commit()
     return redirect(url_for("exames"))
+
+@app.route("/exames/relatorio/<id>",methods=['GET'])
+@login_required
+def exames_relatorio(id):
+    questao_exames = QuestaoExame.query.filter_by(exame_id=id).all()
+    questoes = list()
+    for q in questao_exames:
+        questoes.append(Questao.query.filter_by(id=q.questao_id).first().enunciado)
+
+    respostas = RespotasExameUser.query.filter_by(exame_id=id).all()
+    return render_template('exames_relatorio.html', questoes=questoes, respostas=respostas)
+
 
 @app.route("/criarE",methods=['GET','POST'])
 @login_required
@@ -257,8 +278,21 @@ def responde_exame_view(id):
 @app.route("/exame/<id>/",methods=['POST'])
 @login_required
 def responde_exame(id):
-    respostasME = request.form.getlist('respostasME')
-    respostasCE = request.form.getlist('respostasCE')
-    respostasCA = request.form.getlist('respostasCA')
-    print(respostasME, respostasCE, respostasCA)
+    respostas = list()
+
+    questions_id = request.form.getlist('questions_id')
+    respostas += request.form.getlist('respostasCE')
+    respostas += request.form.getlist('respostasME')
+    respostas += request.form.getlist('respostasCA')
+    
+    respostaExame = RespotasExameUser(exame_id=id, user_id=current_user.id)
+    db.session.add(respostaExame)
+    db.session.commit()
+
+    for i,q in enumerate(questions_id):
+        respostasQuestoes = RespostasQuestoes(resposta_user=respostas[i], questao_id=int(q), reposta_exame_id=int(respostaExame.id))
+        db.session.add(respostasQuestoes)
+    db.session.commit()
+
     return redirect(url_for("user"))
+

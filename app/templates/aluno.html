@@ -3,6 +3,8 @@
 {% block title %}Questões{% endblock %}
 
 {% block content %}
+
+{# CONFLITO
     <div class="d-flex text-center mt-4">
         <div class="col-questao">
             <h1 style="text-align: left">Programadas </h1>
@@ -47,7 +49,36 @@
             {% endfor %}
               </div>
     </div>
+#}
 
+    <h2 class="text-center">Ola, {{current_user.username }}</h2>
+    <hr>
+    <h3 class="text-center">Exames:</h3>
+
+    <div class="row text-center">
+      <div class="col">
+        <h5>À fazer</h5>
+        <ul>
+          {% for e in exames_nao_respondidos %}
+          <p>
+            <a href="{{ url_for('responde_exame_view', id=e.id) }}">{{ e.nome }}</a>
+          </p>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="col">
+        <h5>Concluidos</h5>
+        <ul>
+          {% for e in exames_respondidos %}
+          <p>
+            <a href="">{{ e.nome }}</a>
+          </p>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <ul>
     
+    </ul>
 
 {% endblock %}
