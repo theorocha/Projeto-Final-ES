@@ -36,7 +36,7 @@ pip install -r requirements.txt
 ```
 
   Para adicionar os dados já pré criados pelo projeto utilize: 
-`
+```
 flask seed all 
 or
 flask seed questoes
@@ -44,7 +44,7 @@ flask seed alternativas
 flask seed exames
 flask seed exames_questoes
 flask seed user
-`
+```
 
 ## Rodando o projeto
   Para rodar o projeto basta utilizar:
