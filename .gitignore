@@ -12,7 +12,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
-venv/
+.venv/
 build/
 develop-eggs/
 dist/
@@ -63,3 +63,8 @@ target/
 
 # IDEs
 .vscode
+
+controllers/__pycache__
+__pycache__
+instance/storage.db
+migrations
