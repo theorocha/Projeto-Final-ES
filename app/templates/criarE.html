@@ -1,20 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="../static/bootstrap-5.3.0-dist/css/bootstrap.min.css"
-    />
-    <title>Questão certo ou errado</title>
-    <style>
-      body {
-        background: #201b2c;
-      }
-    </style>
-  </head>
-  <body>
+{% extends "base.html" %}
+
+{% block title %}Exames{% endblock %}
+
+{% block content %}
+  
     <div class="mt-5 container">
       <div class="container row justify-content-center">
         <div class="col-md-6">
@@ -86,5 +75,5 @@
         </div>
       </div>
     </div>
-  </body>
-</html>
+  {% endblock %}
+
