@@ -27,7 +27,7 @@ Para sair do venv:
 pip install -r requirements.txt
 `
 
-## Iniciando o banco de dados
+## Iniciando o banco de dados (É necessário a criação)
   Para iniciar o banco de dados, utilize os seguintes comandos:
 ```
      flask db init
@@ -37,6 +37,8 @@ pip install -r requirements.txt
 
   Para adicionar os dados já pré criados pelo projeto utilize: 
 `
+flask seed all 
+or
 flask seed questoes
 flask seed alternativas
 flask seed exames
@@ -47,6 +49,7 @@ flask seed user
 ## Rodando o projeto
   Para rodar o projeto basta utilizar:
     `
-    flask --app run run --debug
+    export FLASK_APP=run
+    flask run --debug
     `
     
