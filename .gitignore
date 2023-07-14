@@ -1,4 +1,6 @@
 .venv
+theoenv/
+#theoenv\Scripts\activate para entrar no meu venv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
