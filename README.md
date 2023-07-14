@@ -48,8 +48,8 @@ flask seed user
 
 ## Rodando o projeto
   Para rodar o projeto basta utilizar:
-    `
-    export FLASK_APP=run
-    flask run --debug
-    `
+```
+export FLASK_APP=run
+flask run --debug
+```
     
