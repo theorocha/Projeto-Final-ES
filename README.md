@@ -35,14 +35,10 @@ pip install -r requirements.txt
      flask db upgrade
 ```
 
-  Para adicionar os dados já pré criados pelo projeto utilize: 
+  Para adicionar os dados já pré criados pelo projeto utilize:
+  
 ```
-
-flask seed questoes
-flask seed alternativas
-flask seed exames
-flask seed exames_questoes
-flask seed user
+flask seed all
 ```
 
 ## Rodando o projeto
