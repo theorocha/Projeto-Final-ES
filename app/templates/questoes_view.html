@@ -18,7 +18,12 @@
                 {% for q in questoes %}
                 {% if q.tipo == 'ME' %}
                 <tr>
-                    <td>{{ q.enunciado }}</td>
+                    <td> {{ q.enunciado }}</td>
+                    <td> Ans: {% for alternativa in q.alternativas %}
+                        {% if alternativa.correta %}
+                          {{ alternativa.texto }}
+                        {% endif %}
+                      {% endfor %}</td>
                     <td>
                         <ul>
                             {% for a in q.alternativas %}
@@ -29,7 +34,7 @@
                         </ul>
                     
                     </td>
-                    <td><a href="">Editar e Excluir</a>
+                    <td><a href="{{url_for('editQuestao', id = q.id)}}" class="btn btn-outline-primary">Edit/Delete</a>
                     </td>
                 </tr>
                 {% endif %}
@@ -44,7 +49,7 @@
                 <tr>
                     <td>{{ q.enunciado }}</td>
                     <td>{{ q.correta }}</td>
-                    <td><a href="">Editar e Excluir</a>
+                    <td><a href="{{url_for('editQuestao', id = q.id)}}" class="btn btn-outline-primary">Edit/Delete</a>
                     </td>
                 </tr>
                 {% endif %}
@@ -59,7 +64,7 @@
                 <tr>
                     <td>{{ q.enunciado }}</td>
                     <td>{{ q.correta }}</td>
-                    <td><a href="">Editar e Excluir</a>
+                    <td><a href="{{url_for('editQuestao', id = q.id)}}" class="btn btn-outline-primary">Edit/Delete</a>
                     </td>
                 </tr>
                 {% endif %}

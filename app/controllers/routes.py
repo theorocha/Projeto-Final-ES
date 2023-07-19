@@ -90,6 +90,66 @@ def questoes():
     questoes = Questao.query.all()
     return render_template('questoes_view.html', questoes = questoes)
 
+@app.route("/editQuestoes/<int:id>",methods=['GET', 'POST'])
+@login_required
+def editQuestao(id):
+    questao = Questao.query.filter_by(id = id).first()
+    return render_template('editQuestao.html', questao = questao)
+
+@app.route("/deleteQuestao/<int:id>", methods=['GET','POST'])
+@login_required
+def delete_questao(id):
+    questao = Questao.query.get(id)
+
+    if not questao:
+        flash("Questão não encontrada.")
+        return redirect(url_for('questoes')) 
+    
+    if questao.tipo == 'ME':
+        for alternativa in questao.alternativas:
+            db.session.delete(alternativa)
+
+    db.session.delete(questao)
+    db.session.commit()
+
+    flash("Questão excluída com sucesso.")
+    return redirect(url_for('questoes'))
+
+
+
+@app.route("/updateQuestao/<int:id>", methods=['POST','GET'])
+@login_required
+def update_questao(id):
+    # Obtenha a questão com base no ID
+    questao = Questao.query.get(id)
+
+    # Verifique se a questão existe
+    if not questao:
+        flash("Questão não encontrada.")
+        return redirect(url_for('questoes'))  # Redirecione para a página de questões
+
+    # Atualize os dados da questão com base nos valores enviados pelo formulário
+    questao.enunciado = request.form.get('enunciado')
+    
+    if questao.tipo == 'ME':
+        alternativas = request.form.getlist('alternativas')
+        correta_index = int(request.form.get('alternativa_correta'))
+        for i, alternativa in enumerate(questao.alternativas):
+            alternativa.texto = alternativas[i]
+            alternativa.correta = (i == correta_index)
+    
+    if questao.tipo == 'CE' or questao.tipo == 'CA':
+        questao.correta = request.form.get('resposta_correta')
+
+    # Salve as alterações no banco de dados
+    db.session.commit()
+
+    flash("Questão atualizada com sucesso.")
+    return redirect(url_for('questoes'))  # Redirecione para a página de questões
+
+
+
+
 
 @app.route("/questoes/add",methods=['GET'])
 @login_required
@@ -132,7 +192,7 @@ def add_questoes():
         db.session.add(questao)
         db.session.commit()
 
-    return redirect(url_for('add_questoes_view'))
+    return redirect(url_for('questoes'))
 
 '''
 @app.route("/criarME", methods=['GET', 'POST'])
@@ -208,7 +268,6 @@ def cria_questaoCA():
 def exames():
     now = datetime.now()
     exames = Exame.query.all()
-
     return render_template('exames.html', exames=exames, now=now)
 
 @app.route("/exames/edit/<id>",methods=['GET'])

@@ -1,0 +1,82 @@
+{% extends "base.html" %} {% block title %}Editar questão{% endblock %} {% block
+content %}
+<h1>Editar questão {{ questao.id }}</h1>
+<a href="{{url_for('questoes')}}" class="btn btn-primary my-3">Voltar</a>
+
+<form action="{{ url_for('update_questao', id=questao.id) }}" method="post">
+  <!-- <div class="form-group">
+    <label for="">Tipo:</label>
+    <input
+      type="text"
+      name="tipo"
+      class="form-control"
+      value="{{ questao.tipo }}"
+      readonly
+    />
+  </div> -->
+
+  <div class="form-group">
+    <label for="">Enunciado:</label>
+    <input
+      type="text"
+      name="enunciado"
+      class="form-control"
+      value="{{ questao.enunciado }}"
+    />
+  </div>
+
+  {% if questao.tipo == 'CE' %}
+  <div class="form-group">
+    <label for="">Resposta correta: "CERTO" ou "ERRADO"</label>
+    <input
+      type="text"
+      name="resposta_correta"
+      class="form-control"
+      value="{{ questao.correta }}"
+    />
+  </div>
+  {% endif %} {% if questao.tipo == 'ME' %}
+  <div class="form-group">
+    <label for="">Alternativas:</label>
+    {% for alternativa in questao.alternativas %}
+    <input
+      type="text"
+      name="alternativas"
+      class="form-control"
+      value="{{ alternativa.texto }}"
+    />
+    <input
+      type="radio"
+      value="{{ loop.index0 }}"
+      name="alternativa_correta"
+      class="form-check-input"
+      {%
+      if
+      alternativa.correta
+      %}checked{%
+      endif
+      %}
+    />
+    {% endfor %}
+  </div>
+  {% endif %} {% if questao.tipo == 'CA' %}
+  <div class="form-group">
+    <label for="">Resposta correta:</label>
+    <input
+      type="text"
+      name="resposta_correta"
+      class="form-control"
+      value="{{ questao.correta }}"
+    />
+  </div>
+  {% endif %}
+
+  <br />
+  <button class="btn btn-light" type="submit">Atualizar</button>
+  <a
+    class="btn btn-danger"
+    href="{{ url_for('delete_questao', id=questao.id) }}"
+    >Excluir</a
+  >
+</form>
+{% endblock %}
