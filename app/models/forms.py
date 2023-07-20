@@ -5,7 +5,7 @@ from app.models.tables import User
 
 
 class RegisterForm(FlaskForm):
-    username = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Matrícula"})
+    username = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Digite seu nome"})
     password = PasswordField(validators=[InputRequired(), Length(min=4, max=20),EqualTo('confirm_password', message='As senhas devem ser iguais.')], render_kw={"placeholder": "Senha"})
     confirm_password = PasswordField(validators=[InputRequired(), Length(min=4, max=20)],render_kw={"placeholder": "Repita a senha"})
     email = StringField(validators=[InputRequired(),  Length(min=4, max=50)], render_kw={"placeholder": "Email"})
@@ -24,7 +24,7 @@ class RegisterForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    username = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Matrícula"})
+    username = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Nome"})
     password = PasswordField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Senha"})
     submit = SubmitField("Login")
 

@@ -29,18 +29,18 @@
 
 
 
-              <!-- NAME OF EXAM -->
+              <!-- VALUE OF EXAM -->
               <div class="field d-flex mb-3">
                 <div class="input-group-prepend">
                   <span class="input-group-text" id="basic-addon1">Valor</span>
                 </div>
-                <input type="" class="form-control" name="valor" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
+                <input type="number" class="form-control" name="valor" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
               </div>
 
 
 
 
-              <!-- NAME OF EXAM -->
+              <!-- START_DATE OF EXAM -->
               <div class="field d-flex mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon1">Início</span>
@@ -49,20 +49,34 @@
               </div>
 
 
-              <!-- NAME OF EXAM -->
+              <!-- END_DATE OF EXAM -->
               <div class="field d-flex mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text px-4" id="basic-addon1">Fim</span>
                   </div>
                   <input type="datetime-local" name="horario_fim" class="form-control"  aria-label="Username" aria-describedby="basic-addon1">
               </div>
-              <!-- NAME OF EXAM -->
+
+              <!-- NUMBER_QUESTIONS OF EXAM -->
               <div class="field d-flex mb-3">
                 <div class="input-group-prepend">
                   <span class="input-group-text" id="basic-addon1">Nª questões</span>
                 </div>
                 <input type="number" class="form-control" name="qtd_questoes" aria-label="Username" aria-describedby="basic-addon1">
               </div>
+              <div class="field d-flex mb-3">
+                <label>Selecione as questões para a prova:</label>
+              </div>
+              {% for questao in questoes_disponiveis %}
+              <div class="field d-flex mb-3">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="questoes_selecionadas[]" value="{{ questao.id }}">
+                  <label class="form-check-label">
+                    {{ questao.enunciado }}
+                  </label>
+                </div>
+              </div>
+              {% endfor %}
             </div>
           </div>
             <br />

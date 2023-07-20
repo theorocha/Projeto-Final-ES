@@ -322,7 +322,8 @@ def criar_exame():
         db.session.add(exame)
         db.session.commit()
         return redirect(url_for('exames'))
-    return render_template('criarE.html')
+    questoes = Questao.query.all();
+    return render_template('criarE.html' , questoes_disponiveis = questoes)
 
 
 @app.route("/exame/<id>/",methods=['GET'])
