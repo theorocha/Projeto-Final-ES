@@ -77,15 +77,18 @@ exames = [
 exames_questoes = [
     {
         "exame_id": 1,
-        "questao_id": 1
+        "questao_id": 1,
+        "peso": 1.0
     },
     {
         "exame_id": 1,
-        "questao_id": 2
+        "questao_id": 2,
+        "peso": 2.0
     },
     {
         "exame_id": 1,
-        "questao_id": 3
+        "questao_id": 3,
+        "peso": 3.0
     }
 ]
 
