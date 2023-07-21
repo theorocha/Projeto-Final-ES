@@ -1,16 +1,33 @@
 {% extends "base.html" %}
 
-{% block title %}Questões{% endblock %}
+{% block title %}Edita exame{% endblock %}
 
 {% block content %}
-    <h1>Questões</h1>
-    <br>
+    <h1>Edita exame</h1>
     <form action="{{ url_for('exames_update', id=id) }}" method="post">
-        <h4>Selecione as questões que faz parte do exame</h4>
-        <label for="selectedQuestions" style="display: 0; float: left;">Questões:</label>
-        <select class="form-select" name="questoes" id="selectedQuestions" multiple >
+        <hr>
+        <h4>Detalhes do exame</h4>
+        <label for="">Nome</label>
+        <input type="text" class="form-control" name="exame_name" placeholder="Nome do exame" value="{{ exame.nome }}">
+        <label for="">Valor</label>
+        <input type="number" class="form-control" name="valor" placeholder="" value="{{ exame.valor }}">
+        <label for="">Início</label>
+        <input type="datetime-local" class="form-control" name="horario_inicio" value="{{ exame.horario_inicio }}">
+        <label for="">Fim</label>
+        <input type="datetime-local" class="form-control" name="horario_fim" value="{{ exame.horario_fim }}">
+        <label for="">Nª questões</label>
+        <input type="number" class="form-control" name="qtd_questoes" value="{{ exame.qtd_questoes }}">
+        
+        <hr>
+
+        <h4>Questões que faz parte do exame:</h4>
+        <select class="form-select" name="questoes" id="selectedQuestions" multiple>
             {% for q in questoes %}
-            <option value="{{ q[0] }}">{{ q[1] }}</option>
+            {% if q[2]==True %}
+                <option value="{{ q[0] }}" selected>{{ q[1] }}</option>
+            {% else %}
+                <option value="{{ q[0] }}">{{ q[1] }}</option>
+            {% endif %}
             {% endfor %}
         </select>
         <br>

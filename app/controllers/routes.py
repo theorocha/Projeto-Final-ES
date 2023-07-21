@@ -274,17 +274,38 @@ def exames():
 @login_required
 def exames_edit(id):
     # carga de questões
-    questoes = [(a.id, a.enunciado) for a in Questao.query.all()]
-
-    return render_template('exame_edit.html', id=id, questoes=questoes)
+    exame = Exame.query.filter_by(id=id).first()
+    questoes = [[a.id, a.enunciado] for a in Questao.query.all()]
+    questoes_exame = [a.questao_id for a in QuestaoExame.query.filter_by(exame_id=id).all()]
+    # adiciona True para as questoes ja estão associadas ao exame
+    for q in questoes:
+        if q[0] in questoes_exame: q.append(True)
+        else: q.append(False)
+    print(questoes)
+    return render_template('exame_edit.html', id=id, questoes=questoes, exame=exame)
 
 
 @app.route("/exames/edit/<id>/update",methods=['GET', 'POST'])
 @login_required
 def exames_update(id):
-    # obtenção das questoes
+    # edita exame
+    horario_inicio_str = request.form.get('horario_inicio')
+    horario_fim_str = request.form.get('horario_fim')
+
+    exame = Exame.query.filter_by(id=id).first()
+    
+    exame.nome = request.form.get('exame_name')
+    exame.qtd_questoes = request.form.get('qtd_questoes')
+    exame.valor = request.form.get('valor')
+    exame.horario_fim = datetime.strptime(horario_fim_str, '%Y-%m-%dT%H:%M')
+    exame.horario_inicio = datetime.strptime(horario_inicio_str, '%Y-%m-%dT%H:%M')
+
+    db.session.commit()
+
+    # edita questoes
     questoes = request.form.getlist('questoes')
-    # salvando as questoes
+    db.session.query(QuestaoExame).filter(QuestaoExame.exame_id == id).delete()
+    db.session.commit()
     print("# inserindo questoes no exame", questoes)
     for q in questoes:
         quest = QuestaoExame(exame_id=int(id), questao_id=int(q))
