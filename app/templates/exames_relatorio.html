@@ -11,12 +11,14 @@
     {% for q in questoes %}
     <th>{{ q }}</th>
     {% endfor %}
+    <th>Nota</th>
     {% for r in respostas %}
     <tr>
-        <td>{{ r.user_id }}</td>
+        <td>{{ r.username }}</td>
         {% for u in r.respostas %}
         <td>{{ u.resposta_user }}</td>
         {% endfor %}
+        <td>{{ r.nota }}</td>
     </tr>
     {% endfor %}
 </table>

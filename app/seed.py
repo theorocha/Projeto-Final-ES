@@ -20,7 +20,7 @@ questoes = [
     {
         "tipo": "ME",
         "enunciado": "10+10",
-        "correta": ""
+        "correta": "20"
     },
     {
         "tipo": "CE",

@@ -171,6 +171,8 @@ def add_questoes():
         db.session.commit()
         i=0
         for a in alternativas:
+            if(i==int(alternativa_correta)):
+                resposta_corretaME = a
             alternativa = Alternativa(
                 texto=a,
                 correta=(i==int(alternativa_correta)),
@@ -178,6 +180,10 @@ def add_questoes():
             )
             db.session.add(alternativa)
             i+=1
+        db.session.commit()
+        # adiciona o texto da alaternativa no campo 'correta' da questao
+        questao2 = Questao.query.filter_by(id=questao.id).first()
+        questao2.correta=resposta_corretaME
         db.session.commit()
         
     elif tipo=="CE":
@@ -316,6 +322,21 @@ def exames_update(id):
     db.session.commit()
     return redirect(url_for("exames"))
 
+
+def calculaNota(respostas_questoes:list, exame_id)->float:
+    nota = 0.0
+    for r in respostas_questoes:
+        # procura no banco de questoes a resposta correta e o peso da questao no exame
+        questao = Questao.query.filter_by(id=r.questao_id).first()
+        peso = QuestaoExame.query.filter_by(exame_id=exame_id, questao_id=questao.id).first().peso
+        
+        # compara e se estiver correta adiciona o peso da questao na nota
+        print(r.resposta_user, questao.correta, peso)
+        if(r.resposta_user == questao.correta):
+            nota+=peso
+        
+    return nota
+
 @app.route("/exames/relatorio/<id>",methods=['GET'])
 @login_required
 def exames_relatorio(id):
@@ -325,7 +346,16 @@ def exames_relatorio(id):
         questoes.append(Questao.query.filter_by(id=q.questao_id).first().enunciado)
 
     respostas = RespotasExameUser.query.filter_by(exame_id=id).all()
-    return render_template('exames_relatorio.html', questoes=questoes, respostas=respostas)
+    respostas2 = list()
+    for r in respostas:
+        respostas2.append(
+            {
+                "username": User.query.filter_by(id=r.user_id).first().username,
+                "respostas": r.respostas,
+                "nota": calculaNota(r.respostas, id)
+            }
+        )
+    return render_template('exames_relatorio.html', questoes=questoes, respostas=respostas2)
 
 
 @app.route("/criarE",methods=['GET','POST'])
@@ -360,20 +390,25 @@ def responde_exame_view(id):
 @login_required
 def responde_exame(id):
     respostas = list()
+    questoes_ids = list()
 
-    questions_id = request.form.getlist('questions_id')
+    questoes_ids += request.form.getlist('qCE_id')
+    questoes_ids += request.form.getlist('qME_id')
+    questoes_ids += request.form.getlist('qCA_id')
     respostas += request.form.getlist('respostasCE')
     respostas += request.form.getlist('respostasME')
     respostas += request.form.getlist('respostasCA')
+    print(respostas, questoes_ids)
     
     respostaExame = RespotasExameUser(exame_id=id, user_id=current_user.id)
     db.session.add(respostaExame)
     db.session.commit()
 
-    for i,q in enumerate(questions_id):
+    for i,q in enumerate(questoes_ids):
         respostasQuestoes = RespostasQuestoes(resposta_user=respostas[i], questao_id=int(q), reposta_exame_id=int(respostaExame.id))
         db.session.add(respostasQuestoes)
     db.session.commit()
+    
 
     return redirect(url_for("user"))
 
