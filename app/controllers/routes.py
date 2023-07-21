@@ -279,7 +279,7 @@ def exames_edit(id):
     questoes_exame = [a.questao_id for a in QuestaoExame.query.filter_by(exame_id=id).all()]
     # adiciona True para as questoes ja estão associadas ao exame
     for q in questoes:
-        if q[0] in questoes_exame: q.append(True)
+        if q[0] in questoes_exame: q.append(QuestaoExame.query.filter_by(exame_id=id, questao_id=q[0]).first().peso)
         else: q.append(False)
     print(questoes)
     return render_template('exame_edit.html', id=id, questoes=questoes, exame=exame)
@@ -304,11 +304,13 @@ def exames_update(id):
 
     # edita questoes
     questoes = request.form.getlist('questoes')
+    pesos = request.form.getlist('pesos')
+
     db.session.query(QuestaoExame).filter(QuestaoExame.exame_id == id).delete()
     db.session.commit()
-    print("# inserindo questoes no exame", questoes)
-    for q in questoes:
-        quest = QuestaoExame(exame_id=int(id), questao_id=int(q))
+    print("# inserindo questoes no exame", questoes, pesos)
+    for i,q in enumerate(questoes):
+        quest = QuestaoExame(exame_id=int(id), questao_id=int(q), peso=float(pesos[i]))
         db.session.add(quest)
 
     db.session.commit()

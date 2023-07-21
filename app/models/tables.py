@@ -1,5 +1,5 @@
 from app import db
-from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Numeric, Enum
+from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Numeric, Enum, Float
 from sqlalchemy.orm import relationship, mapped_column, Mapped
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_required, LoginManager, login_user, logout_user, current_user
@@ -143,6 +143,7 @@ class QuestaoExame(db.Model):
     id = Column(Integer, primary_key=True)
     exame_id: Mapped["Exame"] = mapped_column(ForeignKey("exames.id"))
     questao_id: Mapped["Questao"] = mapped_column(ForeignKey("questoes.id"))
+    peso = Column(Float, default=1.0)
 
     exame: Mapped["Exame"] = relationship(foreign_keys="QuestaoExame.exame_id")
     questao: Mapped["Questao"] = relationship(foreign_keys="QuestaoExame.questao_id")
