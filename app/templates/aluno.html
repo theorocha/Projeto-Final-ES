@@ -1,84 +1,78 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block title %}Questões{% endblock %} {% block
+content %} {# CONFLITO
+<div class="d-flex text-center mt-4">
+  <div class="col-questao">
+    <h1 style="text-align: left">Programadas</h1>
+    <hr />
+    {% for exame in exames %} {% if now < exame.horario_inicio%}
+    <ul>
+      <li>
+        <td><a href="">{{ exame.nome }}</a></td>
+      </li>
+    </ul>
+    {% endif %} {% endfor %}
+  </div>
+  <div class="col-questao">
+    <h1 style="text-align: center">Abertas</h1>
+    <hr />
+    {% for exame in exames %} {% if now > exame.horario_inicio and now <
+    exame.horario_fim%}
 
-{% block title %}Questões{% endblock %}
-
-{% block content %}
-
-{# CONFLITO
-    <div class="d-flex text-center mt-4">
-        <div class="col-questao">
-            <h1 style="text-align: left">Programadas </h1>
-            <hr>
-            {% for exame in exames %}
-                {% if now < exame.horario_inicio%}
-                <ul>
-                    <li>
-                      <td><a href="">{{ exame.nome }}</a></td>
-                    </li>
-                </ul>
-                {% endif %}
-            {% endfor %}
-        </div>
-        <div class="col-questao">
-            <h1 style="text-align: center">Abertas </h1>
-            <hr>
-            {% for exame in exames %}
-                {% if now > exame.horario_inicio and now < exame.horario_fim%}
-                    
-                <ul>
-                    <li>
-                      <td><a href="{{ url_for('responde_exame_view', id=exame.id) }}">{{ exame.nome }}</a></td>
-                    </li>   
-                </ul>
-                {% endif %}
-            {% endfor %}
-        </div>
-        <div class="col-questao">
-            <h1 style="text-align: center">Concluídas</h1>
-            <hr>
-            {% for exame in exames %}
-                {% if now > exame.horario_fim %}
-                <ul>
-                    <li>
-                      
-                      <td><a href="">{{ exame.nome }}</a></td>
-                      
-                    </li>
-                </ul>
-                {% endif %}
-            {% endfor %}
-              </div>
-    </div>
+    <ul>
+      <li>
+        <td>
+          <a href="{{ url_for('responde_exame_view', id=exame.id) }}"
+            >{{ exame.nome }}</a
+          >
+        </td>
+      </li>
+    </ul>
+    {% endif %} {% endfor %}
+  </div>
+  <div class="col-questao">
+    <h1 style="text-align: center">Concluídas</h1>
+    <hr />
+    {% for exame in exames %} {% if now > exame.horario_fim %}
+    <ul>
+      <li>
+        <td><a href="">{{ exame.nome }}</a></td>
+      </li>
+    </ul>
+    {% endif %} {% endfor %}
+  </div>
+</div>
 #}
 
-    <h2 class="text-center">Ola, {{current_user.username }}</h2>
-    <hr>
-    <h3 class="text-center">Exames:</h3>
+<h2 class="text-center">Ola, {{current_user.username }}</h2>
+<hr />
+<h3 class="text-center mb-5">Exames:</h3>
 
-    <div class="row text-center">
-      <div class="col">
-        <h5>À fazer</h5>
-        <ul>
-          {% for e in exames_nao_respondidos %}
-          <p>
-            <a href="{{ url_for('responde_exame_view', id=e.id) }}">{{ e.nome }}</a>
-          </p>
-          {% endfor %}
-        </ul>
-      </div>
-      <div class="col">
-        <h5>Concluidos</h5>
-        <ul>
-          {% for e in exames_respondidos %}
-          <p>
-            <a href="">{{ e.nome }}</a>
-          </p>
-          {% endfor %}
-        </ul>
-      </div>
-    </div>
+<div class="row text-center">
+  <div class="col">
+    <h5>À fazer</h5>
     <ul>
-    
+      {% for e in exames_nao_respondidos %}
+      <p>
+        <a href="{{ url_for('responde_exame_view', id=e.id) }}">{{ e.nome }}</a>
+      </p>
+      {% endfor %}
     </ul>
+  </div>
+  <div class="col text-center">
+    <h5>Concluidos</h5>
+    <ul>
+      {% for e in exames_respondidos %}
+      <p>
+        <a
+          class="btn btn-outline-info"
+          href="{{ url_for('ver_respostas', id=e.id) }}"
+          >{{ e.nome }}</a
+        >
+      </p>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+<ul></ul>
 
 {% endblock %}

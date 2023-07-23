@@ -337,25 +337,7 @@ def calculaNota(respostas_questoes:list, exame_id)->float:
         
     return nota
 
-@app.route("/exames/relatorio/<id>",methods=['GET'])
-@login_required
-def exames_relatorio(id):
-    questao_exames = QuestaoExame.query.filter_by(exame_id=id).all()
-    questoes = list()
-    for q in questao_exames:
-        questoes.append(Questao.query.filter_by(id=q.questao_id).first().enunciado)
 
-    respostas = RespotasExameUser.query.filter_by(exame_id=id).all()
-    respostas2 = list()
-    for r in respostas:
-        respostas2.append(
-            {
-                "username": User.query.filter_by(id=r.user_id).first().username,
-                "respostas": r.respostas,
-                "nota": calculaNota(r.respostas, id)
-            }
-        )
-    return render_template('exames_relatorio.html', questoes=questoes, respostas=respostas2)
 
 
 @app.route("/criarE",methods=['GET','POST'])
@@ -411,4 +393,43 @@ def responde_exame(id):
     
 
     return redirect(url_for("user"))
+
+@app.route("/exames/relatorio/<id>",methods=['GET'])
+@login_required
+def exames_relatorio(id):
+    questao_exames = QuestaoExame.query.filter_by(exame_id=id).all()
+    questoes = list()
+    for q in questao_exames:
+        questoes.append(Questao.query.filter_by(id=q.questao_id).first().enunciado)
+
+    respostas = RespotasExameUser.query.filter_by(exame_id=id).all()
+    respostas2 = list()
+    for r in respostas:
+        respostas2.append(
+            {
+                "username": User.query.filter_by(id=r.user_id).first().username,
+                "respostas": r.respostas,
+                "nota": calculaNota(r.respostas, id)
+            }
+        )
+
+    return render_template('exames_relatorio.html', questoes=questoes, respostas=respostas2)
+
+
+@app.route("/ver_respostas/<int:id>", methods=['GET', 'POST'])
+@login_required
+def ver_respostas(id):
+    exame = Exame.query.get(id)
+    resposta_exame = RespotasExameUser.query.filter_by(exame_id=id, user_id=current_user.id).first()
+    if not resposta_exame:
+        flash("Você ainda não respondeu este exame.")
+        return redirect(url_for('user'))
+
+    respostas_questoes = RespostasQuestoes.query.filter_by(reposta_exame_id=resposta_exame.id).all()
+
+
+    nota = calculaNota(respostas_questoes, id)
+
+    return render_template('ver_respostas.html', exame=exame, respostas_questoes=respostas_questoes, nota=nota)
+
 

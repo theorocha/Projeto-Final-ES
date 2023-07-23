@@ -1,0 +1,21 @@
+{% extends "base.html" %} {% block title %}Minhas respostas{% endblock %} {%
+block content %}
+<h1 class="mb-5">Minhas respostas para "{{ exame.nome }}"</h1>
+<strong>Nota: {{ nota }}</strong>
+
+<h2 class="my-5">Respostas às questões:</h2>
+<ul>
+  {% for resposta in respostas_questoes %}
+  <li>
+    Questão: {{ resposta.questao.enunciado }}
+    <br />
+    Resposta do usuário: {{ resposta.resposta_user }}
+    <hr />
+  </li>
+  {% endfor %}
+</ul>
+
+<a class="mt-4 btn btn-primary" href="{{ url_for('user') }}"
+  >Voltar para a página inicial</a
+>
+{% endblock %}

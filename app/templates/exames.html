@@ -1,95 +1,103 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block title %}Exames{% endblock %} {# CONFLITO {%
+block content %}
+<div class="d-flex text-center mt-4">
+  <div class="col-questao">
+    <h1 style="text-align: center">Programadas</h1>
+    <hr />
+    {% for exame in exames %} {% if now < exame.horario_inicio%}
+    <ul>
+      <li>
+        <a
+          href="{{url_for('exames_edit', id=exame.id)}}"
+          class="btn btn-outline-warning"
+          >{{ exame.nome }}</a
+        >
+        <td>{{exame.horario_inicio}}</td>
+        <td>{{exame.horario_fim}}</td>
+      </li>
+    </ul>
+    {% endif %} {% endfor %}
+  </div>
+  <div class="col-questao">
+    <h1 style="text-align: center">Abertas</h1>
+    <hr />
+    {% for exame in exames %} {% if now > exame.horario_inicio and now <
+    exame.horario_fim%}
 
-{% block title %}Exames{% endblock %}
+    <ul>
+      <li>
+        <a
+          class="btn btn-outline-info"
+          href="{{url_for('exames_edit', id=exame.id)}}"
+          >{{ exame.nome }}</a
+        >
+        <td>{{exame.horario_inicio}}</td>
+        <td>{{exame.horario_fim}}</td>
+      </li>
+    </ul>
+    {% endif %} {% endfor %}
+  </div>
+  <div class="col-questao">
+    <h1 style="text-align: center">Concluídas</h1>
+    <hr />
+    {% for exame in exames %} {% if now > exame.horario_fim %}
+    <ul>
+      <li>
+        <a href="{{url_for('exames_edit', id=exame.id)}}">{{ exame.nome }}</a>
+        <td>{{exame.horario_inicio}}</td>
+        <td>{{exame.horario_fim}}</td>
+      </li>
+    </ul>
+    {% endif %} {% endfor %}
+  </div>
 
-{# CONFLITO
-{% block content %}
-    <div class="d-flex text-center mt-4">
-        <div class="col-questao">
-            <h1 style="text-align: center">Programadas</h1>
-            <hr>
-            {% for exame in exames %}
-                {% if now < exame.horario_inicio%}
-                <ul>
-                    <li>
-                        <a href="{{url_for('exames_edit', id=exame.id)}}">{{ exame.nome }}</a>
-                        <td>{{exame.horario_inicio}}</td>
-                        <td>{{exame.horario_fim}}</td>
-                    </li>
-                </ul>
-                {% endif %}
-            {% endfor %}
-        </div>
-        <div class="col-questao">
-            <h1 style="text-align: center">Abertas</h1>
-            <hr>
-            {% for exame in exames %}
-                {% if now > exame.horario_inicio and now < exame.horario_fim%}
-                    
-                <ul>
-                    <li>
-                        <a href="{{url_for('exames_edit', id=exame.id)}}">{{ exame.nome }}</a>
-                        <td>{{exame.horario_inicio}}</td>
-                        <td>{{exame.horario_fim}}</td>
-                    </li>   
-                </ul>
-                {% endif %}
-            {% endfor %}
-        </div>
-        <div class="col-questao">
-            <h1 style="text-align: center">Concluídas</h1>
-            <hr>
-            {% for exame in exames %}
-                {% if now > exame.horario_fim %}
-                <ul>
-                    <li>
-                        <a href="{{url_for('exames_edit', id=exame.id)}}">{{ exame.nome }}</a>
-                        <td>{{exame.horario_inicio}}</td>
-                        <td>{{exame.horario_fim}}</td>
-                    </li>
-                </ul>
-                {% endif %}
-            {% endfor %}
-        </div>
+  #} {% block content %}
 
-#}
+  <h2 class="text-center">Exames</h2>
 
-{% block content %}
-
-<h2 class="text-center">Exames</h2>
-
-<div class="row text-center">
+  <div class="row text-center">
     <div class="col">
-        <h3>Abertos</h3>
-        <ul class="list-group">
-        {% for exame in exames %}
-        {% if now < exame.horario_fim %}
+      <h3>Abertos</h3>
+      <ul class="list-group">
+        {% for exame in exames %} {% if now < exame.horario_fim %}
         <li class="list-group-item list-group-item-dark">
-            <p><a href="{{url_for('exames_edit', id=exame.id)}}">{{ exame.nome }}</a></p>
-            <p>{{ exame.horario_inicio}}</p>
-            <p>{{ exame.horario_fim }}</p>
+          <p>
+            <a href="{{url_for('exames_edit', id=exame.id)}}"
+              >{{ exame.nome }}</a
+            >
+          </p>
+          <p>{{ exame.horario_inicio}}</p>
+          <p>{{ exame.horario_fim }}</p>
         </li>
-        {% endif %}
-        {% endfor %}
-        </ul>
+        {% endif %} {% endfor %}
+      </ul>
     </div>
     <div class="col">
-        <h3>Fechados</h3>
-        <ul class="list-group list-group-item-dark">
-        {% for exame in exames %}
-        {% if now > exame.horario_fim %}
+      <h3>Fechados</h3>
+      <ul class="list-group list-group-item-dark">
+        {% for exame in exames %} {% if now > exame.horario_fim %}
         <li class="list-group-item">
-            <p><a href="{{url_for('exames_relatorio', id=exame.id)}}">{{ exame.nome }}</a></p>
-            <p>{{ exame.horario_inicio}}</p>
-            <p>{{ exame.horario_fim }}</p>
+          <p>
+            <a
+              class="btn btn-outline-danger"
+              href="{{url_for('exames_relatorio', id=exame.id)}}"
+              >{{ exame.nome }}</a
+            >
+          </p>
+          <p>{{ exame.horario_inicio}}</p>
+          <p>{{ exame.horario_fim }}</p>
         </li>
-        {% endif %}
-        {% endfor %}
-        </ul>
+        {% endif %} {% endfor %}
+      </ul>
     </div>
-        <a type="button" class="btn btn-outline-primary mt-5 " role="button" href="{{url_for('criar_exame')}}">Criar exame</a>
-        
+    <a
+      type="button"
+      class="btn btn-outline-primary mt-5"
+      role="button"
+      href="{{url_for('criar_exame')}}"
+      >Criar exame</a
+    >
+  </div>
+
+  {% endblock %}
 </div>
-
-
-{% endblock %}
