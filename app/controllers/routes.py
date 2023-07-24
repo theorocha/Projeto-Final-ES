@@ -3,6 +3,7 @@ from flask_login import UserMixin, login_required, LoginManager, login_user, log
 from app import app, bcrypt, login_manager, db
 from datetime import datetime
 from werkzeug.exceptions import abort
+from sqlalchemy import asc
 
 from app.models.tables import User, Questao, Alternativa, Exame, QuestaoExame, RespostasQuestoes, RespotasExameUser
 from app.models.forms import LoginForm, RegisterForm
@@ -70,7 +71,7 @@ def user():
         exames_nao_respondidos = list()
         exames_respondidos = list()
         for e in exames:
-            if(e.id not in respondidas_id):
+            if(e.id not in respondidas_id and e.horario_fim > now):
                 exames_nao_respondidos.append(e)
             else:
                 exames_respondidos.append(e)
@@ -365,7 +366,13 @@ def criar_exame():
 @login_required
 def responde_exame_view(id):
     exame = Exame.query.filter_by(id=id).first()
-    questoes = [Questao.query.filter_by(id=e.questao_id).first() for e in exame.questoes]
+    questoes = [
+        {
+            "questao": Questao.query.filter_by(id=e.questao_id).first(),
+            "peso": e.peso
+        }
+        for e in exame.questoes
+    ]
     return render_template('responde_exame.html', exame=exame, questoes=questoes)
 
 @app.route("/exame/<id>/",methods=['POST'])
@@ -385,12 +392,15 @@ def responde_exame(id):
     respostaExame = RespotasExameUser(exame_id=id, user_id=current_user.id)
     db.session.add(respostaExame)
     db.session.commit()
-
+    
     for i,q in enumerate(questoes_ids):
-        respostasQuestoes = RespostasQuestoes(resposta_user=respostas[i], questao_id=int(q), reposta_exame_id=int(respostaExame.id))
+        questao = Questao.query.filter_by(id=q).first()
+        respostasQuestoes = RespostasQuestoes(resposta_user=respostas[i], questao_id=int(q), reposta_exame_id=int(respostaExame.id), acertou=(respostas[i]==questao.correta))
         db.session.add(respostasQuestoes)
     db.session.commit()
-    
+
+    respostaExame.nota =  calculaNota(respostaExame.respostas, id)
+    db.session.commit()
 
     return redirect(url_for("user"))
 
@@ -400,19 +410,24 @@ def exames_relatorio(id):
     questao_exames = QuestaoExame.query.filter_by(exame_id=id).all()
     questoes = list()
     for q in questao_exames:
-        questoes.append(Questao.query.filter_by(id=q.questao_id).first().enunciado)
-
+        questao = Questao.query.filter_by(id=q.questao_id).first()
+        questoes.append({
+            "id": questao.id,
+            "enunciado": questao.enunciado,
+            "correta": questao.correta,
+            "peso": q.peso
+        })
     respostas = RespotasExameUser.query.filter_by(exame_id=id).all()
     respostas2 = list()
     for r in respostas:
+        respostas_ordenadas = sorted(r.respostas, key=lambda resposta: resposta.questao_id)
         respostas2.append(
             {
                 "username": User.query.filter_by(id=r.user_id).first().username,
-                "respostas": r.respostas,
-                "nota": calculaNota(r.respostas, id)
+                "respostas": respostas_ordenadas,
+                "nota": r.nota
             }
         )
-
     return render_template('exames_relatorio.html', questoes=questoes, respostas=respostas2)
 
 
@@ -422,14 +437,12 @@ def ver_respostas(id):
     exame = Exame.query.get(id)
     resposta_exame = RespotasExameUser.query.filter_by(exame_id=id, user_id=current_user.id).first()
     if not resposta_exame:
-        flash("Você ainda não respondeu este exame.")
+        flash("Você não respondeu este exame.", "danger")
         return redirect(url_for('user'))
 
     respostas_questoes = RespostasQuestoes.query.filter_by(reposta_exame_id=resposta_exame.id).all()
 
 
-    nota = calculaNota(respostas_questoes, id)
-
-    return render_template('ver_respostas.html', exame=exame, respostas_questoes=respostas_questoes, nota=nota)
+    return render_template('ver_respostas.html', exame=exame, respostas_questoes=respostas_questoes, nota=resposta_exame.nota)
 
 

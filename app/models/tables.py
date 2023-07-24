@@ -153,6 +153,7 @@ class RespotasExameUser(db.Model):
     __tablename__ = 'respostas_exame'
 
     id = Column(Integer, primary_key=True)
+    nota = Column(Float, default=0.0)
     exame_id: Mapped["Exame"] = mapped_column(ForeignKey("exames.id"))
     user_id: Mapped["User"] = mapped_column(ForeignKey("user.id"))
     respostas:  Mapped[list["RespostasQuestoes"]] = relationship(back_populates="resposta")
@@ -166,6 +167,7 @@ class RespostasQuestoes(db.Model):
 
     id = Column(Integer, primary_key=True)
     resposta_user = Column(String)
+    acertou = Column(Boolean, default=False)
     questao_id: Mapped["Questao"] = mapped_column(ForeignKey("questoes.id"))
     reposta_exame_id: Mapped["RespotasExameUser"] = mapped_column(ForeignKey("respostas_exame.id"))
 

@@ -64,19 +64,6 @@
                 </div>
                 <input type="number" class="form-control" name="qtd_questoes" aria-label="Username" aria-describedby="basic-addon1">
               </div>
-              <div class="field d-flex mb-3">
-                <label>Selecione as questões para a prova:</label>
-              </div>
-              {% for questao in questoes_disponiveis %}
-              <div class="field d-flex mb-3">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" name="questoes_selecionadas[]" value="{{ questao.id }}">
-                  <label class="form-check-label">
-                    {{ questao.enunciado }}
-                  </label>
-                </div>
-              </div>
-              {% endfor %}
             </div>
           </div>
             <br />

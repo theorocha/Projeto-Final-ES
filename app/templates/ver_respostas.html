@@ -9,7 +9,9 @@ block content %}
   <li>
     Questão: {{ resposta.questao.enunciado }}
     <br />
-    Resposta do usuário: {{ resposta.resposta_user }}
+    <p style="color: {{ 'green' if resposta.acertou else 'red' }};">
+      Resposta do usuário: {{ resposta.resposta_user }}
+    </p>
     <hr />
   </li>
   {% endfor %}

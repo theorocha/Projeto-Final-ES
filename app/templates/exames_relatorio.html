@@ -9,14 +9,18 @@
 <table class="table table-dark">
     <th>Aluno</th>
     {% for q in questoes %}
-    <th>{{ q }}</th>
+    <th>{{ q.enunciado }} ({{ q.peso }})</th>
     {% endfor %}
     <th>Nota</th>
     {% for r in respostas %}
     <tr>
         <td>{{ r.username }}</td>
         {% for u in r.respostas %}
-        <td>{{ u.resposta_user }}</td>
+        {% if u.acertou %}
+        <td style="color: green;">{{ u.resposta_user }}</td>
+        {% else %}
+        <td style="color: red;">{{ u.resposta_user }}</td>
+        {% endif %}
         {% endfor %}
         <td>{{ r.nota }}</td>
     </tr>
