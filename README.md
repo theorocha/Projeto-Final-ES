@@ -51,7 +51,10 @@ flask seed all
 Para rodar o projeto basta utilizar:
 
 ```
-export FLASK_APP=run
+(para linux)
+export FLASK_APP=run 
+(para windows)
+set FLASK_APP=run 
 flask run --debug
 ou flask --app run run --debug
 ```

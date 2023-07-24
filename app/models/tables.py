@@ -65,19 +65,7 @@ class QuestaoCA(db.Model):
 
 ###############################################################################################################
 '''
-#EXAMES
-# questoes = db.Table('questoes',
-#     db.Column('questaoCE_id', db.Integer, db.ForeignKey('questao_ce.id'), primary_key=True),
-#     db.Column('exame_id', db.Integer, db.ForeignKey('exame.id'), primary_key=True)
-# )
 
-# class Exame(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     nome = db.Column(db.String,nullable = False)
-#     horario_inicio = db.Column(db.DateTime, nullable = False)
-#     horario_fim = db.Column(db.DateTime, nullable = False)
-#     questoes = db.relationship('QuestaoCE',secondary = questoes, lazy='subquery',
-#                                backref = db.backref('exames',lazy=True))
 
 '''
 questoes = db.Table('questoes',
